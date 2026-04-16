@@ -1308,10 +1308,10 @@ body {
 <div id="music-toggle">♫</div>
 <!-- PLAYER -->
 <div id="music-player" class="closed">
-  <div class="player-header">
-    <span>Música</span>
-    <button onclick="togglePlayer()">✕</button>
-  </div>
+<div class="player-header">
+  <span>Reproductor</span>
+  <button id="close-player">✕</button>
+</div>
 
   <audio id="player" controls></audio>
 
@@ -2418,29 +2418,105 @@ window.addEventListener('scroll', () => {
     }
   });
 });
+</script>
+
 
 // Music player
-document.addEventListener("DOMContentLoaded", function() {
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-  const player = document.getElementById('player');
-  const musicPlayer = document.getElementById('music-player');
-  const toggleBtn = document.getElementById('music-toggle');
+  const audio = document.getElementById("player");
+  const toggleBtn = document.getElementById("music-toggle");
+  const player = document.getElementById("music-player");
+  const closeBtn = document.getElementById("close-player");
+  const canciones = document.querySelectorAll("#music-player li");
 
-  function togglePlayer() {
-    musicPlayer.classList.toggle('open');
-  }
+  let playlist = [
+    "audio/cancion1.mp3",
+    "audio/cancion2.mp3",
+    "audio/cancion3.mp3"
+  ];
 
-  toggleBtn.addEventListener('click', togglePlayer);
+  let index = 0;
+
+  /* =========================
+     DEBUG (IMPORTANTE)
+  ========================= */
+  audio.addEventListener("error", () => {
+    console.error("❌ Error cargando audio:", audio.src);
+    alert("Error cargando audio: " + audio.src);
+  });
+
+  /* =========================
+     ABRIR / CERRAR
+  ========================= */
+
+  toggleBtn.addEventListener("click", () => {
+    player.classList.toggle("open");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    player.classList.remove("open");
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!player.contains(e.target) && !toggleBtn.contains(e.target)) {
+      player.classList.remove("open");
+    }
+  });
+
+  /* =========================
+     FUNCIÓN GLOBAL
+  ========================= */
 
   window.playSong = function(src) {
-    player.src = src;
-    player.play();
-  }
+
+    index = playlist.indexOf(src);
+
+    audio.src = src;
+
+    /* IMPORTANTE: forzar carga */
+    audio.load();
+
+    let playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log("⚠️ Autoplay bloqueado:", error);
+      });
+    }
+
+    /* resaltar */
+    canciones.forEach(c => c.style.background = "transparent");
+    if (index !== -1) {
+      canciones[index].style.background = "rgba(255,255,255,0.25)";
+    }
+  };
+
+  /* =========================
+     AUTO SIGUIENTE
+  ========================= */
+
+  audio.addEventListener("ended", () => {
+    index++;
+
+    if (index >= playlist.length) {
+      index = 0;
+    }
+
+    audio.src = playlist[index];
+    audio.load();
+    audio.play();
+
+    canciones.forEach(c => c.style.background = "transparent");
+    canciones[index].style.background = "rgba(255,255,255,0.25)";
+  });
 
 });
-
-
 </script>
+
+
+
 
 
 
