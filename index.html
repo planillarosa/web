@@ -1133,6 +1133,93 @@
   transform: translateY(-2px);
 }
 
+
+ /* ─── REPRODUCTOR DE MUSICA ─── */
+/* BOTÓN */
+#music-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #E8197D;
+  color: white;
+  font-size: 20px;
+  padding: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
+
+/* PLAYER */
+#music-player {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 280px;
+  background: #E8197D;
+  border-radius: 16px;
+  padding: 15px;
+  color: white;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  font-family: sans-serif;
+  z-index: 9999;
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* ESTADO ABIERTO */
+#music-player.open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* HEADER */
+.player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.player-header button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* AUDIO */
+#music-player audio {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* LISTA */
+#music-player ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+#music-player li {
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+#music-player li:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+
+
 </style>
 </head>
 <body>
@@ -2230,6 +2317,47 @@ window.addEventListener('scroll', () => {
     }
   });
 });
+
+// Music player
+document.addEventListener("DOMContentLoaded", function() {
+
+  const player = document.getElementById('player');
+  const musicPlayer = document.getElementById('music-player');
+  const toggleBtn = document.getElementById('music-toggle');
+
+  function togglePlayer() {
+    musicPlayer.classList.toggle('open');
+  }
+
+  toggleBtn.addEventListener('click', togglePlayer);
+
+  window.playSong = function(src) {
+    player.src = src;
+    player.play();
+  }
+
+});
+
+
 </script>
+
+
+  <!-- ─── REPRODUCTOR DE MUSICA ─── -->
+<div id="music-toggle">▶︎ •ıı||ı|ıı|</div>
+<!-- PLAYER -->
+<div id="music-player" class="closed">
+  <div class="player-header">
+    <span>Música</span>
+    <button onclick="togglePlayer()">✕</button>
+  </div>
+
+  <audio id="player" controls></audio>
+
+  <ul>
+    <li onclick="playSong('audio/cancion1.mp3')">Planilla Rosa: El Despertar de la Victoria</li>
+    <li onclick="playSong('audio/cancion2.mp3')">La Cumbia Rosa</li>
+  </ul>
+</div>
+
 </body>
 </html>
