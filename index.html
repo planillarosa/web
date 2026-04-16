@@ -1281,6 +1281,36 @@ body {
   overflow-x: hidden;
 }
 
+/* =========================
+   FIX DEFINITIVO REPRODUCTOR
+========================= */
+
+/* asegura que SIEMPRE esté por encima */
+#music-toggle,
+#music-player {
+  position: fixed !important;
+  z-index: 2147483647 !important; /* máximo nivel */
+}
+
+/* evita que algún contenedor lo corte */
+body, html {
+  overflow-x: hidden;
+}
+
+/* FIX específico móvil */
+@media (max-width: 768px) {
+
+  #music-toggle {
+    bottom: 90px !important;
+    right: 15px !important;
+  }
+
+  #music-player {
+    bottom: 170px !important;
+    right: 15px !important;
+  }
+
+}
 
 </style>
 </head>
