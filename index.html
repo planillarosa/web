@@ -1315,6 +1315,25 @@ body, html {
 </style>
 </head>
 <body>
+  <!-- ─── REPRODUCTOR DE MUSICA ─── -->
+<div id="music-toggle">▶︎ •ıı||ı|ıı|</div>
+<!-- PLAYER -->
+<div id="music-player" class="closed">
+  <div class="player-header">
+    <span>Música</span>
+    <button onclick="togglePlayer()">✕</button>
+  </div>
+
+  <audio id="player" controls></audio>
+
+  <ul>
+    <li onclick="playSong('audio/cancion1.mp3')">Planilla Rosa: El Despertar de la Victoria</li>
+    <li onclick="playSong('audio/cancion2.mp3')">La Cumbia Rosa</li>
+  </ul>
+</div>
+
+
+
 
 <!-- ─── NAV ─── -->
 <nav>
@@ -2434,22 +2453,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 
 
-  <!-- ─── REPRODUCTOR DE MUSICA ─── -->
-<div id="music-toggle">▶︎ •ıı||ı|ıı|</div>
-<!-- PLAYER -->
-<div id="music-player" class="closed">
-  <div class="player-header">
-    <span>Música</span>
-    <button onclick="togglePlayer()">✕</button>
-  </div>
 
-  <audio id="player" controls></audio>
-
-  <ul>
-    <li onclick="playSong('audio/cancion1.mp3')">Planilla Rosa: El Despertar de la Victoria</li>
-    <li onclick="playSong('audio/cancion2.mp3')">La Cumbia Rosa</li>
-  </ul>
-</div>
 
 </body>
 </html>
