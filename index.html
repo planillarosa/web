@@ -2465,6 +2465,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+    /* =========================
+     CARGA INICIAL
+  ========================= */
+audio.addEventListener("play", () => {
+  /* si no hay canción cargada */
+  if (!audio.src || audio.src === window.location.href) {
+
+    /* cargar primera canción */
+    audio.src = "audio/cancion1.mp3";
+    audio.load();
+    audio.play();
+  }
+});
+
+
   /* =========================
      FUNCIÓN GLOBAL
   ========================= */
