@@ -1135,53 +1135,73 @@
 
 
  /* ─── REPRODUCTOR DE MUSICA ─── */
-/* BOTÓN */
+/* =========================
+   BOTÓN FLOTANTE
+========================= */
 #music-toggle {
-  position: fixed;
-  bottom: 20px;
+  position: fixed !important;
+  bottom: 70px;
   right: 20px;
   background: #E8197D;
-  color: white;
-  font-size: 20px;
-  padding: 12px;
+  color: #ffffff;
+  font-size: 22px;
+  padding: 14px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  z-index: 9999;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* PLAYER */
+/* efecto hover */
+#music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+}
+
+/* =========================
+   PLAYER PRINCIPAL
+========================= */
 #music-player {
-  position: fixed;
-  bottom: 80px;
+  position: fixed !important;
+  bottom: 140px;
   right: 20px;
   width: 280px;
+  max-width: 90%;
   background: #E8197D;
   border-radius: 16px;
   padding: 15px;
   color: white;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   font-family: sans-serif;
-  z-index: 9999;
+  z-index: 999999;
+
+  /* oculto por defecto */
   transform: translateY(20px);
   opacity: 0;
   pointer-events: none;
   transition: all 0.3s ease;
 }
 
-/* ESTADO ABIERTO */
+/* estado abierto */
 #music-player.open {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 .player-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .player-header button {
@@ -1192,19 +1212,34 @@
   cursor: pointer;
 }
 
-/* AUDIO */
+/* =========================
+   AUDIO
+========================= */
 #music-player audio {
   width: 100%;
   margin-bottom: 10px;
+  border-radius: 8px;
 }
 
-/* LISTA */
+/* =========================
+   LISTA DE CANCIONES
+========================= */
 #music-player ul {
   list-style: none;
   padding: 0;
   margin: 0;
   max-height: 120px;
   overflow-y: auto;
+}
+
+/* scroll bonito */
+#music-player ul::-webkit-scrollbar {
+  width: 6px;
+}
+
+#music-player ul::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
 }
 
 #music-player li {
@@ -1218,6 +1253,33 @@
   background: rgba(255,255,255,0.2);
 }
 
+/* =========================
+   RESPONSIVE (MÓVIL)
+========================= */
+@media (max-width: 768px) {
+
+  #music-toggle {
+    bottom: 80px;
+    right: 15px;
+    padding: 16px;
+    font-size: 24px;
+  }
+
+  #music-player {
+    bottom: 150px;
+    right: 15px;
+    width: 85%;
+    max-width: 320px;
+    padding: 14px;
+  }
+}
+
+/* =========================
+   EXTRA FIX GLOBAL (evita cortes)
+========================= */
+body {
+  overflow-x: hidden;
+}
 
 
 </style>
