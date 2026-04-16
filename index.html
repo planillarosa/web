@@ -1136,66 +1136,85 @@
 
  /* ─── REPRODUCTOR DE MUSICA ─── */
 /* =========================
-   BOTÓN FLOTANTE
+   REPRODUCTOR DE MÚSICA PRO
 ========================= */
+
+/* BOTÓN FLOTANTE */
 #music-toggle {
   position: fixed !important;
-  bottom: 70px;
+  bottom: 25px;
   right: 20px;
+
+  width: 60px;
+  height: 60px;
+
   background: #E8197D;
   color: #ffffff;
   font-size: 22px;
-  padding: 14px;
+
   border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-  z-index: 999999;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  z-index: 2147483647;
+
+  /* FIX iOS */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
-/* efecto hover */
+/* HOVER */
 #music-toggle:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
 }
 
-/* =========================
-   PLAYER PRINCIPAL
-========================= */
+/* PLAYER */
 #music-player {
   position: fixed !important;
-  bottom: 140px;
+
+  bottom: 100px;
   right: 20px;
+
   width: 280px;
   max-width: 90%;
+
   background: #E8197D;
   border-radius: 16px;
   padding: 15px;
-  color: white;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-  font-family: sans-serif;
-  z-index: 999999;
 
-  /* oculto por defecto */
+  color: white;
+  font-family: sans-serif;
+
+  box-shadow: 0 15px 35px rgba(0,0,0,0.35);
+
+  z-index: 2147483647;
+
+  /* oculto */
   transform: translateY(20px);
   opacity: 0;
   pointer-events: none;
+
   transition: all 0.3s ease;
+
+  /* FIX iOS */
+  -webkit-transform: translateZ(0);
 }
 
-/* estado abierto */
+/* ESTADO ABIERTO */
 #music-player.open {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
 }
 
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 .player-header {
   display: flex;
   justify-content: space-between;
@@ -1212,18 +1231,14 @@
   cursor: pointer;
 }
 
-/* =========================
-   AUDIO
-========================= */
+/* AUDIO */
 #music-player audio {
   width: 100%;
   margin-bottom: 10px;
   border-radius: 8px;
 }
 
-/* =========================
-   LISTA DE CANCIONES
-========================= */
+/* LISTA */
 #music-player ul {
   list-style: none;
   padding: 0;
@@ -1232,7 +1247,7 @@
   overflow-y: auto;
 }
 
-/* scroll bonito */
+/* SCROLL */
 #music-player ul::-webkit-scrollbar {
   width: 6px;
 }
@@ -1242,6 +1257,7 @@
   border-radius: 10px;
 }
 
+/* ITEMS */
 #music-player li {
   padding: 8px;
   border-radius: 8px;
@@ -1254,95 +1270,42 @@
 }
 
 /* =========================
-   RESPONSIVE (MÓVIL)
+   MÓVIL (AJUSTE FINO)
 ========================= */
 @media (max-width: 768px) {
 
   #music-toggle {
-    bottom: 80px;
+    bottom: calc(env(safe-area-inset-bottom) + 10px);
     right: 15px;
-    padding: 16px;
-    font-size: 24px;
+
+    width: 50px;
+    height: 50px;
+
+    font-size: 18px;
   }
 
   #music-player {
-    bottom: 150px;
+    bottom: calc(env(safe-area-inset-bottom) + 70px);
     right: 15px;
+
     width: 85%;
-    max-width: 320px;
-    padding: 14px;
+    max-width: 260px;
+    padding: 12px;
   }
 }
 
 /* =========================
-   EXTRA FIX GLOBAL (evita cortes)
+   FIX GLOBAL
 ========================= */
 body {
   overflow-x: hidden;
-}
-
-/* =========================
-   FIX DEFINITIVO REPRODUCTOR
-========================= */
-
-/* asegura que SIEMPRE esté por encima */
-#music-toggle,
-#music-player {
-  position: fixed !important;
-  z-index: 2147483647 !important; /* máximo nivel */
-}
-
-/* evita que algún contenedor lo corte */
-body, html {
-  overflow-x: hidden;
-}
-
-/* FIX específico móvil */
-@media (max-width: 768px) {
-
-  #music-toggle {
-    bottom: 90px !important;
-    right: 15px !important;
-  }
-
-  #music-player {
-    bottom: 170px !important;
-    right: 15px !important;
-  }
-
-}
-
-/* =========================
-   FIX iOS SAFARI
-========================= */
-
-#music-toggle,
-#music-player {
-  position: fixed !important;
-  z-index: 2147483647 !important;
-
-  /* 🔥 CLAVE PARA iPHONE */
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: transform;
-}
-
-/* evita bugs de viewport en iOS */
-@supports (-webkit-touch-callout: none) {
-  #music-toggle {
-    bottom: 100px !important;
-  }
-
-  #music-player {
-    bottom: 180px !important;
-  }
 }
 
 </style>
 </head>
 <body>
   <!-- ─── REPRODUCTOR DE MUSICA ─── -->
-<div id="music-toggle">▶︎ •ıı||ı|ıı|</div>
+<div id="music-toggle">♫</div>
 <!-- PLAYER -->
 <div id="music-player" class="closed">
   <div class="player-header">
