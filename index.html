@@ -28,6 +28,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700;900&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+ /* ─── FIREBASE ─── */
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
 <style>
   :root {
@@ -1404,6 +1407,54 @@ body {
 
 /* ─── Te escuchamos ─── */
   #escuchamos { background: var(--gray); }
+
+
+/* ─── Reacciones ─── */
+.reactions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f0f0f0;
+}
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #f7f7f7;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-family: 'Barlow', sans-serif;
+  color: #555;
+  user-select: none;
+}
+.reaction-btn:hover {
+  border-color: var(--rosa);
+  background: #fff0f6;
+  color: var(--rosa);
+  transform: scale(1.06);
+}
+.reaction-btn.active {
+  background: var(--rosa);
+  border-color: var(--rosa);
+  color: #fff;
+  font-weight: 600;
+}
+.reaction-btn .emoji { font-size: 1rem; line-height: 1; }
+.reaction-btn .count { font-size: 0.78rem; min-width: 12px; }
+.reaction-btn.active .count { color: #fff; }
+
+@keyframes pop {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(1.22); }
+  100% { transform: scale(1);    }
+}
+.reaction-btn.popping { animation: pop 0.25s ease; }
   
 </style>
 </head>
@@ -3272,6 +3323,105 @@ function toggleFlip() {
     <span>#YoVotoRosa · #MareaRosa</span>
   </div>
 </footer>
+
+
+<script>
+  // ── Config Firebase ──────────────────────────────────────
+  const firebaseConfig = {
+    apiKey:            "AIzaSyDoq1DAJjkQzjDtPg8XBy4ChBnAr9BYr4w",
+    authDomain:        "planilla-rosa-cobach.firebaseapp.com",
+    databaseURL:       "https://planilla-rosa-cobach-default-rtdb.firebaseio.com",
+    projectId:         "planilla-rosa-cobach",
+    storageBucket:     "planilla-rosa-cobach.firebasestorage.app",
+    messagingSenderId: "343169024281",
+    appId:             "1:343169024281:web:ef5af57a39d1fa7c380588"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+
+  // ── Sistema de reacciones ────────────────────────────────
+  (function () {
+    const REACTIONS = [
+      { key: 'apoyo',   emoji: '👍', label: 'Apoyo'      },
+      { key: 'urgente', emoji: '🔥', label: 'Urgente'    },
+      { key: 'idea',    emoji: '💡', label: 'Buena idea' },
+      { key: 'importa', emoji: '❤️', label: 'Me importa' },
+    ];
+
+    // Limpia strings para usarlos como clave en Firebase
+    function sanitize(str) {
+      const acentos = {á:'a',é:'e',í:'i',ó:'o',ú:'u',Á:'A',É:'E',Í:'I',Ó:'O',Ú:'U',ü:'u',ñ:'n',Ñ:'N'};
+      return str.trim()
+        .substring(0, 60)
+        .replace(/[áéíóúÁÉÍÓÚüñÑ]/g, c => acentos[c] || c)
+        .replace(/\s+/g, '_')
+        .replace(/[^a-zA-Z0-9_-]/g, '_');
+    }
+
+    // Ruta en Firebase: reacciones/tab-Plantel01/Nombre_Propuesta
+    function propPath(prop) {
+      const tabId = prop.closest('.tab-content')?.id ?? 'general';
+      const title = prop.querySelector('.sec-prop-title')?.textContent ?? 'sin_titulo';
+      return `reacciones/${sanitize(tabId)}/${sanitize(title)}`;
+    }
+
+    // Clave en localStorage para saber si este usuario ya votó
+    function lsKey(path, rxKey) {
+      return `voted__${path.replace(/\//g, '__')}__${rxKey}`;
+    }
+    function hasVoted(path, rxKey)      { return localStorage.getItem(lsKey(path, rxKey)) === '1'; }
+    function setVoted(path, rxKey, val) {
+      val ? localStorage.setItem(lsKey(path, rxKey), '1')
+          : localStorage.removeItem(lsKey(path, rxKey));
+    }
+
+    // Inyecta botones en cada propuesta
+    document.querySelectorAll('.sec-prop').forEach(prop => {
+      const path = propPath(prop);
+      const bar  = document.createElement('div');
+      bar.className = 'reactions';
+
+      REACTIONS.forEach(({ key, emoji, label }) => {
+        const btn    = document.createElement('button');
+        const voted  = hasVoted(path, key);
+        btn.className = 'reaction-btn' + (voted ? ' active' : '');
+        btn.title     = label;
+        btn.innerHTML = `<span class="emoji">${emoji}</span><span class="count"></span>`;
+
+        // Escucha cambios en tiempo real desde Firebase
+        const ref = db.ref(`${path}/${key}`);
+        ref.on('value', snap => {
+          const n = snap.val() || 0;
+          btn.querySelector('.count').textContent = n > 0 ? n : '';
+        });
+
+        // Click: incremento/decremento atómico
+        btn.addEventListener('click', () => {
+          const yaVoto = hasVoted(path, key);
+          const delta  = yaVoto ? -1 : 1;
+
+          ref.transaction(actual => {
+            const nuevo = (actual || 0) + delta;
+            return nuevo < 0 ? 0 : nuevo;
+          });
+
+          setVoted(path, key, !yaVoto);
+          btn.classList.toggle('active', !yaVoto);
+
+          // Animación pop
+          btn.classList.remove('popping');
+          void btn.offsetWidth;
+          btn.classList.add('popping');
+        });
+
+        bar.appendChild(btn);
+      });
+
+      prop.appendChild(bar);
+    });
+  })();
+</script>
 
 <script>
 // Toggle mobile menu
