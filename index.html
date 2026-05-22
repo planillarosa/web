@@ -344,10 +344,11 @@
 
   /* ─── MISIÓN VISIÓN OBJETIVO ─── */
   #mision { background: var(--gray); }
-  .mvo-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
+.mvo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem; margin-top: 3rem;
-  }
+}
   .mvo-card {
     background: white;
     border-radius: 12px;
@@ -726,7 +727,7 @@
   /* ─── PROPUESTAS GENERALES ─── */
   #propuestas { background: white; }
   .propuestas-categories {
-    display: grid; grid-template-columns: repeat(2,1fr);
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem; margin-top: 3rem;
   }
   .prop-cat {
@@ -1403,38 +1404,7 @@ body {
 
 /* ─── Te escuchamos ─── */
   #escuchamos { background: var(--gray); }
-  .mvo-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 2rem; margin-top: 3rem;
-  }
-  .mvo-card {
-    background: white;
-    border-radius: 12px;
-    padding: 2.5rem 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-    transition: var(--transition);
-    border-top: 4px solid var(--rosa);
-  }
-  .mvo-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(232,25,125,0.15); }
-  .mvo-icon {
-    width: 56px; height: 56px; border-radius: 12px;
-    background: var(--rosa);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 1.5rem;
-    font-size: 1.4rem; color: white;
-  }
-  .mvo-label {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    color: var(--charcoal);
-    margin-bottom: 1rem;
-  }
-  .mvo-text { font-size: 0.95rem; line-height: 1.7; color: #555; }
-
-
-
+  
 </style>
 </head>
 <body>
