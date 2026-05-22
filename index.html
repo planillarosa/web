@@ -1401,6 +1401,40 @@ body {
   }
 }
 
+/* ─── Te escuchamos ─── */
+  #escuchamos { background: var(--gray); }
+  .mvo-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2rem; margin-top: 3rem;
+  }
+  .mvo-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    transition: var(--transition);
+    border-top: 4px solid var(--rosa);
+  }
+  .mvo-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(232,25,125,0.15); }
+  .mvo-icon {
+    width: 56px; height: 56px; border-radius: 12px;
+    background: var(--rosa);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem; color: white;
+  }
+  .mvo-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+  }
+  .mvo-text { font-size: 0.95rem; line-height: 1.7; color: #555; }
+
+
+
 </style>
 </head>
 <body>
@@ -1452,6 +1486,7 @@ body {
     <li><a href="#propuestas">Propuestas</a></li>
     <li><a href="#secretarias">Secretarías</a></li>
     <li><a href="#credencial">Credencial</a></li>
+    <li><a href="#escuchamos">Te escuchamos</a></li>
     <li><a href="#vota" class="nav-cta">¡Vota Rosa!</a></li>
   </ul>
   <div class="hamburger" id="hamburger" onclick="toggleMenu()">
@@ -1949,7 +1984,8 @@ init();
       <p class="section-desc">Cada secretaría cuenta con un plan de trabajo específico, orientado a resultados concretos y medibles para los agremiados.</p>
     </div>
     <div class="secretarias-tabs">
-      <button class="tab-btn active" onclick="showTab('general')">Secretaría General</button>
+      <button class="tab-btn active" onclick="showTab('NoMostrar')">Ocultar Todas</button>
+      <button class="tab-btn" onclick="showTab('general')">Secretaría General</button>
       <button class="tab-btn" onclick="showTab('organizacion')">Organización</button>
       <button class="tab-btn" onclick="showTab('trabajo')">Trabajo y Conflictos</button>
       <button class="tab-btn" onclick="showTab('finanzas')">Finanzas</button>
@@ -1958,7 +1994,10 @@ init();
       <button class="tab-btn" onclick="showTab('comunicacion')">Comunicación y Transparencia</button>
     </div>
 
-    <div class="tab-content active" id="tab-general">
+    <div class="tab-content active" id="tab-NoMostrar">
+    </div>
+
+    <div class="tab-content" id="tab-general">
       <div class="sec-info">
         <div class="sec-info-title">Secretaría General</div>
         <div class="sec-person">
@@ -2439,6 +2478,772 @@ function toggleFlip() {
   </div>
 </section>
 
+<!-- ─── TE ESCUCHAMOS ─── -->
+<section id="escuchamos">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-tag">En la Planilla Rosa</div>
+      <h2 class="section-title">Te escuchamos</h2>
+      <div class="divider"></div>
+      <p class="section-desc">La Planilla Rosa te escucha, y estas son las diferentes propuestas que ustedes los agremiados nos han hecho llegar.
+        Redactamos cada una de sus propuestas, y las agrupamos por plantel para que sea más fácil su consulta. <br>
+        Si tienes alguna propuesta que quieras compartir, no dudes en contactarnos a través de nuestro facebook. Estamos abiertos a escucharte para que juntos renovemos nuestro sindicato.
+      </p>
+    </div>
+    <div class="secretarias-tabs">
+      <button class="tab-btn active" onclick="showTab('Ocultas')">Ocultar Todas</button>
+      <button class="tab-btn" onclick="showTab('Plantel01')">Plantel 01</button>
+      <button class="tab-btn" onclick="showTab('Plantel02')">Plantel 02</button>
+      <button class="tab-btn" onclick="showTab('Plantel03')">Plantel 03</button>
+      <button class="tab-btn" onclick="showTab('Plantel04')">Plantel 04</button>
+      <button class="tab-btn" onclick="showTab('Plantel05')">Plantel 05</button>
+      <button class="tab-btn" onclick="showTab('Plantel06')">Plantel 06</button>
+      <button class="tab-btn" onclick="showTab('Plantel07')">Plantel 07</button>
+      <button class="tab-btn" onclick="showTab('Plantel08')">Plantel 08</button>
+      <button class="tab-btn" onclick="showTab('Plantel09')">Plantel 09</button>
+      <button class="tab-btn" onclick="showTab('Plantel10')">Plantel 10</button>
+      <button class="tab-btn" onclick="showTab('Plantel11')">Plantel 11</button>
+      <button class="tab-btn" onclick="showTab('DG')">Dirección General</button>
+      <button class="tab-btn" onclick="showTab('Almacen')">Almacén</button>
+      <button class="tab-btn" onclick="showTab('SEA')">S.E.A.</button>
+      <button class="tab-btn" onclick="showTab('Sindicato')">IX Comité Ejecutivo Estatal</button>
+    </div>
+
+    <div class="tab-content active" id="tab-Ocultas">
+    </div>
+
+    <div class="tab-content" id="tab-Plantel01">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 01</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Ajustes al Prestamo Sindical</div>
+          <div class="sec-prop-desc">Incrementar el tope financiero de los préstamos disponibles para los trabajadores y modificar el esquema de cobro, estableciendo que el total de los intereses generados sea descontado al momento de la entrega inicial del recurso.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Confidencialidad en Apoyos Económicos Solidarios</div>
+          <div class="sec-prop-desc">Modificar el formato de recaudación de los apoyos económicos solidarios para proteger la privacidad de la base trabajadora. Se sugiere eliminar las listas públicas donde se exponen los montos aportados por cada persona. En su lugar, se proponen dos alternativas: <br>
+            1.- Incluir una cuenta bancaria institucional o del afectado en el oficio para realizar aportaciones directas vía transferencia. <br>
+            2.- Mantener el formato físico de forma confidencial, bajo el resguardo exclusivo de la delegación sindical, para que solo el delegado gestione las firmas y aportaciones de manera individual.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Más Plazas Prejubilatorias</div>
+          <div class="sec-prop-desc">Buscar aumentar el número de plazas prejubilatorias.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Unidad Sindical Permanente o Espíritu de Planilla Rosa Activo.</div>
+          <div class="sec-prop-desc">Mantener de forma permanente el entusiasmo, la unidad y el espíritu de colaboración que hoy caracterizan a la planilla, asegurando que esta misma energía guíe siempre el trabajo en equipo y el desarrollo de todas las actividades sindicales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Austeridad en Asambleas Generales</div>
+          <div class="sec-prop-desc">Buscar alternativas para reducir los costos de organización y desarrollo de la Asamblea General.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Nueva Secretaría Sindical de Jubilados</div>
+          <div class="sec-prop-desc">Negociar la creación de una nueva cartera sindical o secretaría enfocada exclusivamente en el sector de jubilados, con el objetivo de homologar sus beneficios y conquistas laborales como los que actualmente perciben los jubilados del SNTE.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Fusión de Secretarías</div>
+          <div class="sec-prop-desc">Fusionar dos secretarías actuales para crear la “Secretaría de Bienestar y Asistencia”, optimizando la estructura sindical para agilizar y fortalecer la gestión de los trámites correspondientes a la Secretaría Técnica.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Prioridad al Escalafón</div>
+          <div class="sec-prop-desc">Reestructurar los criterios del escalafón para otorgar un mayor peso y valor prioritario a la antigüedad del personal en los procesos de promoción y asignación de plazas.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Prima de Antigüedad Sin Tope</div>
+          <div class="sec-prop-desc">Eliminar el tope financiero en el cálculo de la prima de antigüedad, garantizando que este beneficio se pague de manera íntegra con base en los años reales de servicio del trabajador.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Digitalización de Trámites</div>
+          <div class="sec-prop-desc">Digitalizar la captación de datos, el llenado de formatos y la entrega de documentación mediante la implementación de una plataforma o programa informático, eliminando el uso innecesario de papel y optimizando los tiempos de respuesta.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Acompañamiento en Jubilación</div>
+          <div class="sec-prop-desc">Implementar un programa de asesoría y acompañamiento integral para los trabajadores en proceso de jubilación, brindándoles orientación paso a paso desde el inicio del trámite y manteniendo el respaldo sindical una vez que hayan transitado al estatus de jubilados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Módulo de Atención a Jubilados</div>
+          <div class="sec-prop-desc">Habilitar una oficina o módulo de atención exclusivo dentro de las instalaciones sindicales para recibir a los compañeros jubilados, garantizando que este espacio sea gestionado y atendido por personal jubilado para brindar un servicio con mayor empatía y experiencia.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Acompañamiento por Luto</div>
+          <div class="sec-prop-desc">Crear un protocolo de apoyo y acompañamiento integral para el personal ante el fallecimiento de un familiar, brindándoles asistencia legal y administrativa inmediata en la gestión de trámites.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Historia y Memoria Sindical</div>
+          <div class="sec-prop-desc">Que los fundadores del SUTCBEBCS nos den pláticas sobre la historia y formación de nuestro sindicato.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Privacidad de la Información</div>
+          <div class="sec-prop-desc">Cuidar que la información de la página del sindicato sea a través de un usuario y una contraseña.</div>
+        </div>
+                <div class="sec-prop">
+          <div class="sec-prop-title">Justificación de Incidencias Flexible</div>
+          <div class="sec-prop-desc">Que los retardos en un centro de trabajo sean independientes del otro a donde vaya a entrar el compañero o compañera, es decir, que tengan la oportunidad de justificar en cualquier centro de trabajo al que vaya a entrar sin importar el turno.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Tiempos de Traslado Médico</div>
+          <div class="sec-prop-desc">Negociar el establecimiento de un margen de tiempo regulado para asistir a consultas médicas y reincorporarse a las labores. Como alternativa viable, se propone segmentar este beneficio en un período de hasta 30 minutos para el traslado de ida y otros 30 minutos para el retorno al centro de trabajo.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Permiso por Luto Laboral</div>
+          <div class="sec-prop-desc">Gestionar el establecimiento de un corte de tiempo especial para que el personal de un centro de trabajo pueda asistir y acompañar a las familias durante las honras fúnebres y el sepelio de un compañero o compañera fallecida.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Validez de Justificantes Particulares</div>
+          <div class="sec-prop-desc">Negociar con colegio el reconocimiento y aceptación de cortes de tiempo emitidos por médicos y clínicas particulares, garantizando que tengan la misma validez que los de las instituciones públicas de salud para justificar retardos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Negociación de Incidencias de la plataforma Oficina Virtual</div>
+          <div class="sec-prop-desc">Negociar ante la autoridad del Colegio la flexibilización de los criterios para el registro de cortes de tiempo, exigiendo que se elimine el candado restrictivo de los 10 minutos de anticipación y se autorice un margen de tiempo razonable posterior para la captura de cortes de tiempo y solicitud de días economicos en la plataforma oficina virtual.</div>
+        </div>
+                <div class="sec-prop">
+          <div class="sec-prop-title">Protocolo para Esquelas Institucionales</div>
+          <div class="sec-prop-desc">Establecer un protocolo de estricta revisión y sensibilidad en el manejo de datos personales al emitir esquelas institucionales por el fallecimiento de familiares del personal, garantizando la total corrección y ortografía en los nombres y apellidos como muestra de respeto y empatía.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Presencia de la Secretaría Técnica en el ISSSTE</div>
+          <div class="sec-prop-desc">Establecer una guardia presencial de al menos dos horas a la semana por parte de la Secretaría Técnica en las instalaciones del ISSSTE, integrándose al espacio de gestión de los demás sindicatos para brindar apoyo directo a la base trabajadora en el trámite de citas médicas y el surtido de medicamentos en farmacia.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Sindicato de Puertas Abiertas</div>
+          <div class="sec-prop-desc">Implementar un esquema de corresponsabilidad entre todas las carteras del comité, garantizando que cualquier secretaría tenga la capacidad y disposición de brindar atención, orientación y seguimiento a los compañeros que asistan a las oficinas sindicales, sin importar el área de su trámite.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Delegados en su espacio sindical</div>
+          <div class="sec-prop-desc">Gestionar de alguna forma ante el colegio la presencia de las delegadas y delegados sindicales en las oficinas de sus respectivos centros de trabajo.</div>
+        </div>        
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel02">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 02</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Negociaciones Directas al Salario</div>
+          <div class="sec-prop-desc">Priorizar en las mesas de negociación salarial que todo incremento o beneficio económico obtenido se aplique de manera directa al salario base (tabulador) y no a la modalidad de bonos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Optimización de Deducciones Personales</div>
+          <div class="sec-prop-desc">Buscar asesoría fiscal, para que los agremiados aprovechen al máximo las deducciones autorizadas ante el SAT en rubros clave como gastos médicos, equipamiento tecnológico y herramientas de trabajo, logrando así un impacto positivo en sus declaraciones anuales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Garantía y Gestión de Riesgos de Trabajo</div>
+          <div class="sec-prop-desc">Exigir ante el Colegio la implementación de protocolos de seguridad específicos para planteles ubicados en zonas de alta vulnerabilidad y, de manera paralela, establecer un canal de intermediación ante el ISSSTE para agilizar y garantizar el reconocimiento inmediato de los dictámenes por Riesgo de Trabajo del personal.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Apoyo Integral por Traslado Médico</div>
+          <div class="sec-prop-desc">Negociar ante el Colegio la actualización y el incremento de viáticos destinados a traslados por atención médica foránea, exigiendo montos dignos y justos que cubran de manera real el hospedaje, la alimentación y el transporte del trabajador.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Flexibilidad por Tiempos del ISSSTE</div>
+          <div class="sec-prop-desc">Negociar con la autoridad del Colegio la flexibilización y ampliación de los márgenes de los cortes de tiempo otorgados para citas médicas, estableciendo que la justificación se adapte de manera real al tiempo efectivo de traslado, consulta y los retrasos habituales en la atención del ISSSTE.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Tiempo Delegacional</div>
+          <div class="sec-prop-desc">Negociar con el Colegio la asignación y reconocimiento oficial de una a dos horas semanales dentro de la jornada laboral para las delegadas y delegados sindicales, destinadas exclusivamente a la atención y asesoría de trámites de los compañeros en las oficinas de sus centros de trabajo.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Desfile del 1 de Mayo</div>
+          <div class="sec-prop-desc">Coordinar la concentración masiva de todos los agremiados o al menos los más cercanos a la capital del estado, para participar de manera unificada en el desfile conmemorativo del 1 de Mayo</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Seguimiento de los abogados para el cambio de Décimo Transitorio</div>
+          <div class="sec-prop-desc">Dar un seguimiento y respueta del proceso de los abogados que se hicieron cargo sobre el cambio de Cuentas Individuales a Décimo Transitorio.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Acompañamiento en Jubilación</div>
+          <div class="sec-prop-desc">Implementar un programa de asesoría y acompañamiento integral para los trabajadores en proceso de jubilación, brindándoles orientación paso a paso desde el inicio del trámite y manteniendo el respaldo sindical una vez que hayan transitado al estatus de jubilados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Horas Docente</div>
+          <div class="sec-prop-desc">Continuar con la lucha de buscar las horas definitivas para docentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Formación con Identidad Sindical</div>
+          <div class="sec-prop-desc">Que se lleven a cabo actividades que fomenten la cultura sindical, ya sea con personas externas o con los iniciadores de nuestro sindicato.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Patrimonio en San José</div>
+          <div class="sec-prop-desc">Deribado de la propuesta de planilla, buscar la venta de terrenos en San José del Cabo, BCS. Con descuentos vía nómina.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asignación de Plazas Administrativas Transparentes</div>
+          <div class="sec-prop-desc">Dar aviso a todos los agremiados cuando le toca a Dirección General otorgar una plaza.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Avisos de Plazas Vacantes</div>
+          <div class="sec-prop-desc">Que siempre se informe con tiempo a los agremiados las oportunidades sobre plazas vacantes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Respaldo en Riesgos de Trabajo</div>
+          <div class="sec-prop-desc">Asesorar, respaldar y litigar de manera oportuna los trámites jurídico-médicos del personal ante las instituciones de seguridad social, garantizando la correcta calificación y dictaminación de los Riesgos de Trabajo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel03">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 03</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Plazas Prejubilatorias por Causas de Fuerza Mayor</div>
+          <div class="sec-prop-desc">Negociar la incorporación en la reglamentación institucional de la figura de "Plaza Prejubilatoria Humanitaria", diseñada para otorgar una transición laboral protegida al personal que padezca enfermedades crónicas, degenerativas o incapacitantes debidamente certificadas por la institución de seguridad social oficial</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Permiso para Acompañamiento Médico</div>
+          <div class="sec-prop-desc">Negociar la inclusión de un corte de tiempo especial por "Permiso de Acompañamiento Médico", que faculte legalmente a las y los trabajadores para asistir a sus padres (adultos mayores) a consultas, tratamientos o intervenciones en instituciones de salud públicas o privadas, mediante la debida justificación.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Dignificación de Prendas de Trabajo</div>
+          <div class="sec-prop-desc">Constituir una comisión mixta (patrón-sindicato) para la selección de proveedores de uniformes institucionales, garantizando que las prendas cumplan con los estándares óptimos de calidad, durabilidad y confort requeridos por el personal.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Detalle sindical en defunción</div>
+          <div class="sec-prop-desc">Establecer un mecanismo de consulta inmediata y flexible ante el fallecimiento de un trabajador o familiar directo, que permita a los deudos elegir entre el envío del protocolo floral o la transferencia equivalente de dicho recurso en efectivo como apoyo directo para sufragar los gastos administrativos y funerarios emergentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reuniones Delegacionales</div>
+          <div class="sec-prop-desc">Retomar las reuniones delegacionales por centro de trabajo.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reactivación de la Capacitación Institucional</div>
+          <div class="sec-prop-desc">Reactivar la capacitación institucional y aprovechar el tiempo que hay en el cambio de semestre para la aplicación de cursos tanto a docentes como para administrativos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Caso Horas Vacantes de Orientadoras</div>
+          <div class="sec-prop-desc">Apoyar a las orientadoras en el trámite que están realizando para que se verifiquen los perfiles y la repartición definitiva de las horas que quedaron a partir de la jubilación de una compañera del Plantel 01.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Protección de datos personales</div>
+          <div class="sec-prop-desc">Garantizar la protección de nuestros datos personales en la credencialización.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Capacitación Sindical Nuevo Ingreso</div>
+          <div class="sec-prop-desc">Crear un programa de capacitación dirigido al personal de nuevo ingreso al sindicato con el objetivo de que conozca sus derechos y obligaciones como agremiado.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Regularización y Basificación de Personal Interino</div>
+          <div class="sec-prop-desc">A los compañeros que llevan tres años o más como interinos, se les resuelva su situación y se les otorgue una basificación.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Creación de Plaza de Vigilancia o Prefectura</div>
+          <div class="sec-prop-desc">Gestionar ante el Colegio la creación de una plaza de encargado de orden o de un vigilante en la entrada, por cuestiones de seguridad en el entorno del plantel</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Lectura de Acuerdos Realizados en la Asamblea General</div>
+          <div class="sec-prop-desc">Leer al final de cada asamblea los Acuerdos generados por el gremio.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel04">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 04</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Transparencia en el Plan Anual de Actividades Sindicales</div>
+          <div class="sec-prop-desc">Que los agremiados conozcan de manera transparente el Plan Anual de Actividades Sindicales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Impulsar la Cultura Sindical</div>
+          <div class="sec-prop-desc">Buscar mecanismos y actividades para fortalecer e impulsar la Cultura Sindical</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Visita a Planteles si Somos Favorecidos</div>
+          <div class="sec-prop-desc">Si son favorecidos, deben visitar cada centro de trabajo para reforzar el conocimiento de las necesidades de cada uno y en conjunto con el centro de trabajo buscar soluciones.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Desfile del 1 de Mayo</div>
+          <div class="sec-prop-desc">Coordinar la concentración masiva de todos los agremiados o al menos los más cercanos a la capital del estado, para participar de manera unificada en el desfile conmemorativo del 1 de Mayo</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Prestación de Vida Cara a Nuevo Ingreso</div>
+          <div class="sec-prop-desc">Negociar la modificación del periodo de espera de dos años en la asignación del bono por "Vida Cara", exigiendo que esta prestación de sea otorgada de manera inmediata a todo el personal de nuevo ingreso al Colegio.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Regularización de Plazas en Plantel 04</div>
+          <div class="sec-prop-desc">Exigir al Colegio la revisión inmediata y la Regularización de plazas del personal administrativo afectado.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asistencia a Asamblea General</div>
+          <div class="sec-prop-desc">Que la asistencia a la Asamblea General se realice con mediante el QR de la Credencial Sindical que ofrecen.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asistencia a Asamblea General</div>
+          <div class="sec-prop-desc">Utilizar la Huella dactilar para agilizar la entrada y la salida a la Asamblea General.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Credencialización Sindical</div>
+          <div class="sec-prop-desc">Que de verdad se logre la credencialización sindical como ustedes la proponen.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel05">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 05</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Modernización Tecnológica de los formatos Sindicales</div>
+          <div class="sec-prop-desc">Modernizar los formatos sindicales para que los datos generales del trabajador se llenen de manera automatica y buscar implementar que la firma electronica sea válida para omitir firma fisica.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Regulación de Asignaturas</div>
+          <div class="sec-prop-desc">Establecer un mecanismo obligatorio ante modificaciones curriculares o cambios de nomenclatura en los planes de estudio, garantizando que los contenidos temáticos correspondan estrictamente al perfil profesiográfico del docente</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reducir impacto del ISR</div>
+          <div class="sec-prop-desc">Buscar mecanismos para reducir el impacto que nos hicieron al gravar el ISR, posiblemente con el uso de un monedero electrónico.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Autonomía Sindical</div>
+          <div class="sec-prop-desc">Consolidar una representación sindical activa, proactiva y con estricta autonomía política, que actúe como un contrapeso legal y firme frente a las determinaciones unilaterales de la Dirección General del Colegio.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Tiempo para el delegado</div>
+          <div class="sec-prop-desc">Gestionar con Dirección General para que el delegado tenga al menos 2 horas a la semana dedicadas para atender situaciones sindicales o en su defecto que el sindicato haga el pago correspondiente a esas horas.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Equidad en las Rifas de las Asambleas Generales</div>
+          <div class="sec-prop-desc">Que las personas que se hayan retirado al concluír la Asamblea General no necesariamente tenga que quedarse al evento para poder ganar premios en la rifa de regalos habitual.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Regular los Permisos de Comisiones</div>
+          <div class="sec-prop-desc">Gestionar ante el Colegio que se acepte el oficio de comisión de diferentes sistemas de educación.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Oficios de Comisión</div>
+          <div class="sec-prop-desc">Buscar que los oficios de Comisión sean canjeables al doble de la jornada, es decir, si te comisionan 2 horas, que se canjee por 4 horas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel06">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 06</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Libertad de expresión</div>
+          <div class="sec-prop-desc">Permitir que los agremiados puedan expresarse en los grupos delegacionales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Buzón de quejas</div>
+          <div class="sec-prop-desc">Que el Sindicato abra un canal para que sus agremiados puedan dar a conocer los errores que están cometiendo y acepten la crítica constructiva.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Aumento de Plazas Prejubilatorias</div>
+          <div class="sec-prop-desc">Buscar aumentar el numero de plazas prejubilatorias.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Capacitación Sindical Nuevo Ingreso</div>
+          <div class="sec-prop-desc">Crear un programa de capacitación dirigido al personal de nuevo ingreso al sindicato con el objetivo de que conozca sus derechos y obligaciones como agremiado.</div>
+        </div>        
+        <div class="sec-prop">
+          <div class="sec-prop-title">Caso Cuentas Individuales a Décimo Transitorio</div>
+          <div class="sec-prop-desc">Retomar el tema del cambio de Cuentas Individuales al Décimo Transitorio con el abogado que ya tiene los casos. (Los despachos de abogados no quisieron dar información al sindicato)..</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel07">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 07</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Caso de Compañera No le Aceptan su Recategorización</div>
+          <div class="sec-prop-desc">Revisar la situación de la compañera: Luz Virginia Reyes Covarrubias, no le han aceptado la recategorización.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Traslados en ISSSTE Planteles Foraneos</div>
+          <div class="sec-prop-desc">Gestionar que se les ortorgue un día previo a la cita a los compañeros foraneos, además de buscar un apoyo con víaticos para su hospedaje.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Canje de día</div>
+          <div class="sec-prop-desc">La situación del Plantel es que no hay Especialidades de ISSSTE cerca y al recurrir a un particular el ISSSTE no acepta las constancias para hacer la debida justificación.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">NFC en Credencial Sindical</div>
+          <div class="sec-prop-desc">Implementar la tecnología NFC en la credencial Sindical, para que se puedan almacenar otros tipos de datos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel08">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 08</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Vehículos sindicales como vehículos de emergencias</div>
+          <div class="sec-prop-desc">El uso de vehículos sindicales para atender situaciones de emergencia, garantizando la movilidad y respuesta rápida en casos de necesidad de los agremiados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Calcamonías en vehículos oficiales del sindicato</div>
+          <div class="sec-prop-desc">La instalación de calcamonías en los vehículos oficiales del sindicato para mejorar la visibilidad y seguridad en situaciones de emergencia.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Vínculos con las instituciones de Salud</div>
+          <div class="sec-prop-desc">Establecer un vínculo con las instituciones de Salud, para agilizar trámites y demás en ISSSTE.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">CV-5 para Docentes</div>
+          <div class="sec-prop-desc">Buscar la Recategorización Docente y si es posible buscar la CV-5.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Comunicación y Transparencia</div>
+          <div class="sec-prop-desc">Publicar de manera efectiva los informes de cada secretaría.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Deporte y Cultura</div>
+          <div class="sec-prop-desc">Diseñar una estrategia o planificación para actividades deportivas, culturales y recreativas por zona.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Permisos para Representar al Sindicato</div>
+          <div class="sec-prop-desc">Que los permisos para asistir a los eventos Nacionales no sean negociables sino un derecho.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asambleas Generales Austeras</div>
+          <div class="sec-prop-desc">Reducir los gastos de las Asambleas Generales y buscar que sean en otra localidad.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Uniformes para los Docentes</div>
+          <div class="sec-prop-desc">Buscar brindar un uniforme a los Docentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Víaticos para Reuniones Sindicales</div>
+          <div class="sec-prop-desc">Buscar que los víaticos asignados para reuniones sindicales sean justos, y se otorguen un día antes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Uniforme de Invierno en Plantel 08</div>
+          <div class="sec-prop-desc">Brindar chamarra al personal del Plantel, ya que el clima lo requiere.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Transportes Dignos para los Eventos Sindicales</div>
+          <div class="sec-prop-desc">Brindar a los agremiados foraneos Transportes (autobuses) Dignos, en buen estado y comodos, en donde se les permita dejar dentro del camión sus pertenencias.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Encargados de Laboratorios</div>
+          <div class="sec-prop-desc">Buscar una homologación de categorías entre los encargados de los laboratorios, porque algunos tienen baja categoría.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reconocimiento de Años de Servicio</div>
+          <div class="sec-prop-desc">Buscar la validación de los años de servicio en los Planteles de las y los compañeros que provienen de PREFECO en el estado.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Eventos Deportivos y Culturales</div>
+          <div class="sec-prop-desc">Realizar encuentros deportivos y culturales entre el personal sindicalizado a nivel Municipal y Estatal.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel09">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 09</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Fomentar la Unión entre el Gremio</div>
+          <div class="sec-prop-desc">Crear actividades, encuentros deportivos y culturales donde podamos interactuar como agremiados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Plazas Desaparecidas</div>
+          <div class="sec-prop-desc">Gestionar ante el Colegio la falta de encargado de laboratorio de Informática y de Ciencias en el Plantel 09.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Plaza de Nueva Creación</div>
+          <div class="sec-prop-desc">Investigar que sucede con la plaza de Laboratorista, puesto que desde que se creó el Plantel no hay está habilitada la plaza.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asambleas Generales Austeras</div>
+          <div class="sec-prop-desc">Reducir los gastos de las Asambleas Generales y buscar que sean en otra localidad.</div>
+        </div>        
+        <div class="sec-prop">
+          <div class="sec-prop-title">Cuentas Individuales</div>
+          <div class="sec-prop-desc">Asesoramiento a los agremiados para que los que tienen la posibilidad de cambiar su regimen de Cuentas Individuales a Décimo Transitorio.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel10">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 10</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Nueva Asignación de Horas</div>
+          <div class="sec-prop-desc">Detallar los requisitos para la nueva asignación de Horas docentes, a partir del documento emitido por USICAMM.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asignación Transparente de Horas</div>
+          <div class="sec-prop-desc">Verificar como se asignan horas docentes y dar prioridad a los docentes que actualmente están impartiendo esa asignatura.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Año Sábatico</div>
+          <div class="sec-prop-desc">Brindar apoyo para el año sábatico a los compañeros.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Orientación a Jubilados</div>
+          <div class="sec-prop-desc">Acompañamiento en los procesos de jubilación a los compañeros que lo requieran.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Presencia de Autoridades en la Ultima Checada</div>
+          <div class="sec-prop-desc">Que la ultima checada de los compañeros agremiados no pase desapercibida, y se les haga un pequeño homenaje con presencia de los directivos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Cuotas Sindicales para Jubilados</div>
+          <div class="sec-prop-desc">Buscar la posibilidad que los jubilados sigan pagando cuotas sindicales (como referencia el sindicato del IMSS) para que se sigan conservando algunos derechos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Clausula del CCT Sobre la Maternidad</div>
+          <div class="sec-prop-desc">Buscar la modificación de la Clausula del Contrato Colectivo de Trabajo para que se extienda el periodo de días de Paternidad.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">FOVISSSTE</div>
+          <div class="sec-prop-desc">Dar acompañamiento para la realización de trámites en FOVISSSTE, para que el agremiado los concrete y se informe de manera oportuna.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Plantel11">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Plantel 11</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Transparencia en la Bolsa de Trabajo</div>
+          <div class="sec-prop-desc">Que la bolsa de trabajo sea transparente y se cumpla conforme están establecidos los lineamientos de elección a las plazas vacantes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Visitar Centros de Trabajo</div>
+          <div class="sec-prop-desc">Realizar visitas puntuales a los diferentes centros de trabajo durante la gestión.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reglamento de Escalafón</div>
+          <div class="sec-prop-desc">Realizar una auditoría de las recientes modificaciones al Reglamento de Escalafón a través de la Comisión Mixta, con el objetivo de identificar, corregir o impugnar cualquier lineamiento que vulnere los derechos adquiridos de la base trabajadora.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Aviso Rápido de Plazas Vacantes</div>
+          <div class="sec-prop-desc">Implementar un protocolo de comunicación inmediata y automatizada que garantice la difusión en tiempo real de toda plaza vacante (definitiva o temporal) desde el momento de su liberación.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Estados de Cuenta en Préstamos</div>
+          <div class="sec-prop-desc">Que los agremiados que tengan prestamos Sindicales activos, reciban de manera quincenal su estado de cuenta.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Donadores de Sangre</div>
+          <div class="sec-prop-desc">Crear un banco de donadores de sangre de los agremiados para facilitar la donación y el acceso a sangre en caso de necesidad.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Ambulancia</div>
+          <div class="sec-prop-desc">Gestionar con las diferentes instituciones de Salud, la prioridad para tener el servicio de una ambulancia a disposición de la base.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Horas para el Delegado</div>
+          <div class="sec-prop-desc">Negociar y establecer contractualmente la asignación obligatoria de descargas horarias parciales (de una a dos horas semanales) para las y los delegados sindicales, así como para los integrantes de las diversas comisiones.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Basificación Docente</div>
+          <div class="sec-prop-desc">Continuar con el Trabajo de basificación de horas a docentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Horas Docentes sin Titular</div>
+          <div class="sec-prop-desc">Poner a disposición las horas que jubilados dejan disponibles para los docentes del mismo Plantel.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Atención Sindical 24/7</div>
+          <div class="sec-prop-desc">Establecer un sistema permanente de guardias presenciales en las oficinas del Comité y habilitar una línea telefónica de emergencia activa las 24 horas del día, los 7 días de la semana, garantizando una respuesta inmediata.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Fondo Económico de Apoyo Solidario</div>
+          <div class="sec-prop-desc">Crear un fondo de apoyo económico solidario para ayudar a los compañeros y compañeras que lo necesiten por situaciones de enfermedad, (Verificado con un certificado médico) con una aportación quincenal vía nómina de Cincuenta pesos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asambleas Generales Austeras</div>
+          <div class="sec-prop-desc">Reducir los gastos de las Asambleas Generales.</div>
+        </div> 
+        <div class="sec-prop">
+          <div class="sec-prop-title">Prestaciones no ejercidas</div>
+          <div class="sec-prop-desc">Investigar ¿Qué pasa con las prestaciones que no se ejercen?, ¿Que pasa con ese fondo?, un ejemplo es la prestación de Lentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Funciones Inherentes al Puesto</div>
+          <div class="sec-prop-desc">Crear un manual de "funciones Inherentes", para que estén claras las responsabilidades de cada cargo.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Cambio de Centros de Trabajo</div>
+          <div class="sec-prop-desc">Crear un sistema de cambio de centro de trabajo y permutas al igual que lo tiene USICAMM en Educación Basica.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Uniformes para los Docentes</div>
+          <div class="sec-prop-desc">Buscar brindar un uniforme a los Docentes.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Servicio de Guardería Sindical</div>
+          <div class="sec-prop-desc">Establecer un servicio de guardería, o brindar opciones de Estancias para contar con un lugar seguro para los hijos de las y los agremiados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Ampliación del Tiempo de Permiso para Consultas Médicas</div>
+          <div class="sec-prop-desc">Negociar que los cortes de tiempo en las Instituciones de Salud sean acordes al tiempo real de traslado, consulta y obtención de medicamentos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Accidentes de Trabajo</div>
+          <div class="sec-prop-desc">Que se brinde acompañamiento puntual, legal y administrativo a las y los agremiados que sufran un accidente en ejercicio o con motivo de sus funciones, garantizando la debida integración de los expedientes y formatos oficiales para asegurar su correcta calificación y dictaminación como "Riesgo de Trabajo" ante el ISSSTE.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Actividades con Jubilados</div>
+          <div class="sec-prop-desc">Brindar la Palapa Sindical a los jubilados con actividades recreativas y sociales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Capacitación y Promoción Escalonaria</div>
+          <div class="sec-prop-desc">Diseñar e implementar una estrategia permanente de difusión, orientación e incentivos sobre la oferta académica y formativa disponible, a fin de promover la participación del personal en cursos validados que otorguen puntaje para los procesos de recategorización.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Horarios Docentes</div>
+          <div class="sec-prop-desc">Trabajar en coordianción con las autoridades del Colegio en la creación de los horarios de los docentes, para que los docentes con menor carga academica tengan un horario más compacto.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Cortes de Tiempo a Docentes con Pocas Horas</div>
+          <div class="sec-prop-desc">Gestionar ante el Colegio o buscar una estrategia en la que los cortes de tiempo de docentes con 1 o 2 horas al día, sean válidos sin la necesidad de meter un día ecónimico.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-DG">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Dirección General</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Actualización del Contrato Colectivo y los Estatutos</div>
+          <div class="sec-prop-desc">Impulsar una revisión exhaustiva de los Estatutos Sindicales y del Contrato Colectivo de Trabajo vigentes, con el objetivo de identificar, rescatar o adecuar aquellas cláusulas que han quedado en desuso o operan como "letra muerta".</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Asambleas Generales Austeras</div>
+          <div class="sec-prop-desc">Reducir los gastos de las Asambleas Generales o reducir el número de Asambleas por periodos de cada Comité.</div>
+        </div> 
+        <div class="sec-prop">
+          <div class="sec-prop-title">Reglamento Interno para Asambleas Generales</div>
+          <div class="sec-prop-desc">Crear un Reglamento Interno de Orden para las Asambleas Generales, con el objeto de normar la participación, garantizar el quórum legal permanente prohibiendo el abandono injustificado del recinto, y restringir estrictamente el consumo de bebidas alcohólicas o cualquier sustancia que altere el orden, asegurando que las sesiones se desarrollen en un marco de respeto, profesionalismo y plena validez estatutaria.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Fondo de Jubilación</div>
+          <div class="sec-prop-desc">Aplicar estrategias para robustecer el Fondo de Jubilación del Sindicato, previendo el impacto presupuestal por el retiro simultáneo de las generaciones con mayor antigüedad. Asimismo, promover mecanismos transparentes de capitalización financiera para este fondo.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">CLÁUSULA 28 BIS</div>
+          <div class="sec-prop-desc">Revisar la Cláusula 28 BIS sobre la adopción de un infante se otorgan 6 semanas efectivas con goce de sueldo, e igualar el número de días otorgados al trabajador que tiene alumbramiento de su cónyugue (solo se otorgan 7 días por paternidad).</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Lactancia</div>
+          <div class="sec-prop-desc">Negociar ante el Colegio que la hora de lactancia se extienda a dos horas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Almacen">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Almacén</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Acceso Digital Seguro para Agremiados</div>
+          <div class="sec-prop-desc">Implementar un sistema de autenticación digital mediante usuario y contraseña para el ingreso a la plataforma web institucional del Sindicato, garantizando un entorno virtual seguro y exclusivo para los agremiados.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Incremento Gradual al Seguro de Vida</div>
+          <div class="sec-prop-desc">Negociar ante la Dirección General del Colegio la actualización y el incremento progresivo de la suma asegurada en la póliza del seguro de vida institucional, promoviendo una ruta presupuestal que permita elevar de forma escalonada la cobertura actual de $300,000.00 pesos hasta alcanzar al menos $500,000.00 pesos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Alianzas Sindicales en ISSSTE</div>
+          <div class="sec-prop-desc">Unir fuerzas con otros sindicatos del estado para exigir juntos al ISSSTE que mejore la atención médica y resuelva el desabasto garantizando el surtido rápido y completo de todas nuestras recetas de medicamentos..</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Austeridad en Asambleas Generales</div>
+          <div class="sec-prop-desc">Disminuir las Asambleas Generales y el dinero destinado sobrante se puede invertir en convivios en los centros de trabajo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-SEA">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">Sistema de Enseñanza Abierta 01</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Herramientas de Trabajo</div>
+          <div class="sec-prop-desc">Exigir a la Dirección General que proporcione los equipos, líneas telefónicas y herramientas tecnológicas necesarias para la atención oficial de los alumnos (como las asesorías vía WhatsApp), garantizando que las y los trabajadores no tengan que utilizar sus recursos, teléfonos o planes de datos personales para cumplir con sus funciones laborales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Oficina Sindical</div>
+          <div class="sec-prop-desc">En el SEA no se cuenta con un espacio para el delegado, gestionar ante el Colegio la creación de un espacio.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Tiempo para el delegado</div>
+          <div class="sec-prop-desc">Gestionar con Dirección General para que el delegado tenga al menos 2 horas a la semana dedicadas para atender situaciones sindicales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Convenios con Médicos y Clínicas Particulares</div>
+          <div class="sec-prop-desc">Gestionar convenios y alianzas con médicos especialistas, laboratorios y clínicas privadas para ofrecer descuentos significativos y tarifas preferenciales a las y los agremiados y sus familias.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Entornos Escolares Seguros y Limpios</div>
+          <div class="sec-prop-desc">Gestionar ante el Dirección General del Colegio para que ellos exijan a las autoridades municipales y estatales el mantenimiento urgente de las áreas exteriores de nuestros planteles, exigiendo mayor vigilancia policial, reparación del alumbrado público, poda de árboles que obstruyen la visibilidad y la reparación de fugas de aguas negras, para prevenir accidentes y garantizar la seguridad de toda la comunidad escolar.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Manual de Gastos y Transparencia Financiera</div>
+          <div class="sec-prop-desc">Crear un manual financiero obligatorio para el Comité Ejecutivo que regule con total claridad cómo, en qué y cuánto se puede gastar de los recursos del sindicato.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Austeridad en Asambleas Generales</div>
+          <div class="sec-prop-desc">Disminuir el gasto que se hace en las Asambleas Generales.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Desfile del 1 de Mayo</div>
+          <div class="sec-prop-desc">Coordinar la concentración masiva de todos los agremiados o al menos los más cercanos a la capital del estado, para participar de manera unificada en el desfile conmemorativo del 1 de Mayo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-Sindicato">
+      <div class="sec-info">
+        <div class="sec-info-title" style="text-align: center;">IX Comité Ejecutivo Estatal del SUTCBEBCS</div> 
+      </div>
+      <div class="sec-proposals">
+        <div class="sec-prop">
+          <div class="sec-prop-title">Comunicación Directa y Prioritaria con Delegados</div>
+          <div class="sec-prop-desc">Establecer como regla obligatoria que toda información oficial, acuerdos con el patrón o alertas laborales se comuniquen de manera prioritaria e inmediata a las y los delegados sindicales, utilizando canales digitales directos antes de su difusión general.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Transparencia en la Compra de Terrenos</div>
+          <div class="sec-prop-desc">Crear una comisión sindical permanente encargada de supervisar rigurosamente los convenios con las inmobiliarias, dando un seguimiento puntual al estado de los pagos y exigiendo la entrega legal de los terrenos en los plazos acordados, para garantizar que el patrimonio y la inversión de cada compañero estén plenamente protegidos.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Alianza Estratégica de Beneficios Intergremiales</div>
+          <div class="sec-prop-desc">Gestionar un convenio de colaboración con el SNTE para que nuestra credencial sindical sea reconocida en su red de convenios, permitiendo que las y los compañeros tengan acceso a los mismos descuentos, promociones y beneficios comerciales que ofrece la organización magisterial en todo el estado.</div>
+        </div>
+        <div class="sec-prop">
+          <div class="sec-prop-title">Optimización de la Credencial Sindical</div>
+          <div class="sec-prop-desc">Revisar y adecuar la normatividad interna y el diseño de nuestra credencial institucional para analizar la viabilidad de incluir términos como "Trabajador de la Educación", "Docente" o "Maestro" según corresponda. El objetivo es garantizar que la leyenda del documento sea plenamente válida y reconocida por empresas de transporte y centros culturales en todo el país, asegurando que los compañeros reciban los máximos descuentos disponibles al viajar.</div>
+        </div>
+      </div>
+    </div>
+
+        <!-- Flecha para subir -->
+      <div class="flecha-container">
+        <a href="#escuchamos" class="btn-flecha"></a>
+      </div>
+</section>
+
 <!-- ─── CTA / VOTA ─── -->
 <section id="vota">
   <div class="vota-inner">
@@ -2475,6 +3280,7 @@ function toggleFlip() {
         <li><a href="#propuestas">Propuestas</a></li>
         <li><a href="#secretarias">Secretarías</a></li>
         <li><a href="#credencial">Credencial</a></li>
+        <li><a href="#escuchamos">Te Escuchamos</a></li>
       </ul>
     </div>
     <div>
@@ -2658,5 +3464,6 @@ audio.addEventListener("play", () => {
 
 });
 </script>
+
 </body>
 </html>
