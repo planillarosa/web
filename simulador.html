@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador de Préstamos Sindicales · Planilla Rosa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+:root {
+  --rosa: #E91E8C;
+  --rosa-dark: #C01070;
+  --rosa-light: #FCE4F4;
+  --rosa-pale: #FDF0FA;
+  --carbon: #1A1A2E;
+  --carbon-mid: #2D2D44;
+  --carbon-light: #3D3D5A;
+  --text-main: #1A1A2E;
+  --text-muted: #6B6B8A;
+  --text-light: #9898B0;
+  --surface: #FFFFFF;
+  --surface2: #F8F8FC;
+  --surface3: #F2F2F8;
+  --border: rgba(26,26,46,0.10);
+  --border-mid: rgba(26,26,46,0.18);
+  --success: #0D7A4E;
+  --success-bg: #E6F7F0;
+  --danger: #C0392B;
+  --danger-bg: #FDECEA;
+  --warning: #B45309;
+  --warning-bg: #FEF3CD;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 12px rgba(233,30,140,0.10);
+  --shadow-lg: 0 8px 40px rgba(26,26,46,0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--surface2);
+  color: var(--text-main);
+  min-height: 100vh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ─── LOGIN ─────────────────────────────────────── */
+#screen-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--carbon);
+  position: relative;
+  overflow: hidden;
+}
+
+#screen-login::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(233,30,140,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 90% 100%, rgba(233,30,140,0.10) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.login-card {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 48px 44px 40px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  border: 1px solid rgba(233,30,140,0.15);
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-logo .marca {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px;
+  color: var(--rosa);
+  letter-spacing: 2px;
+  line-height: 1;
+  display: block;
+}
+
+.login-logo .sub {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.login-logo .union {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  color: var(--text-main);
+  background: var(--surface2);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--rosa);
+  box-shadow: 0 0 0 3px rgba(233,30,140,0.12);
+  background: var(--surface);
+}
+
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background: var(--rosa);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 8px;
+}
+
+.btn-login:hover { background: var(--rosa-dark); }
+.btn-login:active { transform: scale(0.98); }
+
+.login-hint {
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: var(--rosa-pale);
+  border: 1px solid rgba(233,30,140,0.20);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.login-hint strong { color: var(--rosa-dark); }
+
+.login-error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: var(--danger-bg);
+  border: 1px solid rgba(192,57,43,0.20);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--danger);
+  display: none;
+}
+
+/* ─── MAIN APP ──────────────────────────────────── */
+#screen-app {
+  display: none;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Topbar */
+.topbar {
+  background: var(--carbon);
+  padding: 0 24px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 2px solid var(--rosa);
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.topbar-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--rosa);
+  letter-spacing: 2px;
+}
+
+.topbar-title {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 400;
+  border-left: 1px solid rgba(255,255,255,0.15);
+  padding-left: 16px;
+}
+
+.clock-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(233,30,140,0.15);
+  border: 1px solid rgba(233,30,140,0.30);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.clock-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--rosa);
+  border-radius: 50%;
+  animation: pulse-dot 1.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,0.65);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Barlow', sans-serif;
+}
+
+.btn-logout:hover { border-color: var(--rosa); color: var(--rosa); }
+
+/* Main content */
+.app-body {
+  flex: 1;
+  padding: 28px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Panel header */
+.panel-header {
+  margin-bottom: 24px;
+}
+
+.panel-header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  color: var(--text-main);
+  letter-spacing: 1px;
+}
+
+.panel-header p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+/* Stats cards */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+
+.stat-card .label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-light);
+  margin-bottom: 8px;
+}
+
+.stat-card .value {
+  font-size: 26px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.stat-card .value.rosa { color: var(--rosa); }
+.stat-card .value.success { color: var(--success); }
+
+/* Form card */
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 28px;
+}
+
+.form-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-card-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: var(--text-main);
+}
+
+.form-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--rosa-light);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.form-row .form-group { margin-bottom: 0; }
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--rosa);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 11px 24px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover { background: var(--rosa-dark); }
+.btn-primary:active { transform: scale(0.98); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--rosa);
+  border: 1.5px solid var(--rosa);
+  border-radius: var(--radius-sm);
+  padding: 10px 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover { background: var(--rosa-pale); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ghost:hover { background: var(--surface3); }
+
+.file-input-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-input-wrapper input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Table */
+.table-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.table-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-card-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  background: var(--surface2);
+}
+
+.search-box input {
+  border: none;
+  background: transparent;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  outline: none;
+  width: 180px;
+  color: var(--text-main);
+}
+
+.search-box input::placeholder { color: var(--text-light); }
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  background: var(--surface3);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: var(--surface2); }
+
+tbody td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-active {
+  background: #E6F7F0;
+  color: var(--success);
+}
+
+.badge-paid {
+  background: var(--surface3);
+  color: var(--text-muted);
+}
+
+.badge-warn {
+  background: var(--warning-bg);
+  color: var(--warning);
+}
+
+.saldo-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-track {
+  flex: 1;
+  height: 6px;
+  background: var(--surface3);
+  border-radius: 3px;
+  min-width: 60px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--rosa);
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.progress-fill.verde {
+  background: var(--success);
+}
+
+.btn-ver {
+  background: var(--rosa-pale);
+  color: var(--rosa-dark);
+  border: 1px solid rgba(233,30,140,0.25);
+  border-radius: var(--radius-sm);
+  padding: 7px 16px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btn-ver:hover { background: var(--rosa-light); border-color: var(--rosa); }
+
+.empty-state {
+  text-align: center;
+  padding: 56px 24px;
+  color: var(--text-light);
+}
+
+.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+.empty-state p { font-size: 15px; }
+
+/* ─── MODAL ─────────────────────────────────────── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26,26,46,0.65);
+  z-index: 200;
+  overflow-y: auto;
+  padding: 24px 16px;
+}
+
+.modal-overlay.active { display: flex; align-items: flex-start; justify-content: center; }
+
+.modal {
+  background: var(--surface);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 740px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  animation: modal-in 0.25s ease;
+}
+
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(-16px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  background: var(--carbon);
+  border-radius: 16px 16px 0 0;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.modal-avatar {
+  width: 48px;
+  height: 48px;
+  background: rgba(233,30,140,0.20);
+  border: 2px solid var(--rosa);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  color: var(--rosa);
+  letter-spacing: 1px;
+}
+
+.modal-header h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.modal-header .num-trab {
+  font-size: 12px;
+  color: rgba(255,255,255,0.50);
+  margin-top: 2px;
+}
+
+.btn-close {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.65);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.btn-close:hover { background: rgba(233,30,140,0.25); color: #fff; }
+
+.modal-body {
+  padding: 24px 28px;
+}
+
+.ficha-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 540px) {
+  .ficha-grid { grid-template-columns: 1fr; }
+}
+
+.ficha-section {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+}
+
+.ficha-section h4 {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--rosa);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ficha-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.ficha-row:last-child { margin-bottom: 0; }
+
+.ficha-label {
+  font-size: 12px;
+  color: var(--text-light);
+  flex-shrink: 0;
+}
+
+.ficha-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  text-align: right;
+}
+
+/* Préstamo activo section */
+.prestamo-section {
+  background: linear-gradient(135deg, #1A1A2E 0%, #2D2D44 100%);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(233,30,140,0.20);
+}
+
+.prestamo-section h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--rosa);
+  margin-bottom: 16px;
+}
+
+.prestamo-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.prestamo-label { font-size: 12px; color: rgba(255,255,255,0.50); }
+.prestamo-value { font-size: 14px; font-weight: 600; color: #fff; }
+.prestamo-value.big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: var(--rosa);
+}
+
+.progress-bar-big {
+  height: 10px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 5px;
+  margin: 8px 0 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--rosa);
+  border-radius: 5px;
+  transition: width 0.8s ease;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255,255,255,0.40);
+}
+
+/* Historial */
+.historial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.historial-header h4 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: var(--text-main);
+}
+
+.historial-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.historial-list::-webkit-scrollbar { width: 4px; }
+.historial-list::-webkit-scrollbar-track { background: var(--surface3); border-radius: 2px; }
+.historial-list::-webkit-scrollbar-thumb { background: var(--rosa-light); border-radius: 2px; }
+
+.hist-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+.hist-item.especial {
+  background: var(--success-bg);
+  border-color: rgba(13,122,78,0.20);
+}
+
+.hist-item.especial .hist-monto { color: var(--success); }
+
+.hist-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+
+.hist-desc {
+  flex: 1;
+  color: var(--text-main);
+  font-weight: 500;
+}
+
+.hist-date { color: var(--text-light); font-size: 12px; }
+.hist-monto { font-weight: 700; color: var(--danger); white-space: nowrap; }
+
+/* Adelanto modal */
+.adelanto-box {
+  background: var(--surface2);
+  border: 1px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.adelanto-box h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.adelanto-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1.5px solid var(--border-mid);
+  border-radius: var(--radius-sm);
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.radio-option input { display: none; }
+.radio-option.selected { border-color: var(--rosa); background: var(--rosa-pale); color: var(--rosa-dark); }
+
+.btn-confirmar {
+  background: var(--success);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 10px 22px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 17px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-confirmar:hover { opacity: 0.88; }
+
+.modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 28px 24px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+/* ─── TOAST ─────────────────────────────────────── */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 300;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--carbon);
+  border: 1px solid rgba(233,30,140,0.35);
+  border-left: 3px solid var(--rosa);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  min-width: 280px;
+  max-width: 340px;
+  pointer-events: all;
+  animation: toast-in 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.30);
+}
+
+.toast.success {
+  border-left-color: var(--success);
+  border-color: rgba(13,122,78,0.30);
+}
+
+.toast.warn {
+  border-left-color: #E9A21E;
+  border-color: rgba(233,162,30,0.30);
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(20px); }
+}
+
+.toast-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--rosa);
+  margin-bottom: 4px;
+}
+
+.toast.success .toast-title { color: #3FBF88; }
+.toast.warn .toast-title { color: #E9A21E; }
+
+.toast-msg { font-size: 13px; color: rgba(255,255,255,0.80); line-height: 1.5; }
+
+/* ─── RESPONSIVE ────────────────────────────────── */
+@media (max-width: 640px) {
+  .app-body { padding: 16px; }
+  .topbar { padding: 0 16px; }
+  .topbar-title { display: none; }
+  .modal-body { padding: 16px; }
+  .modal-header { padding: 16px; }
+  .modal-footer { padding: 12px 16px 16px; }
+  .prestamo-section { padding: 16px; }
+  .ficha-grid { grid-template-columns: 1fr; }
+  .table-card-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .search-box input { width: 140px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ PANTALLA LOGIN ════════════ -->
+<div id="screen-login">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="marca">Planilla Rosa</span>
+      <div class="sub">SUTCBEBCS</div>
+      <div class="union">Sistema de Préstamos Sindicales · Demo</div>
+    </div>
+
+    <div class="form-group">
+      <label>Usuario</label>
+      <input type="text" id="login-user" value="simulador" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="login-pass" placeholder="Ingresa tu contraseña" autocomplete="off">
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">Ingresar al Sistema</button>
+
+    <div class="login-error" id="login-error">
+      ❌ Contraseña incorrecta. Recuerda usar la clave de la simulación.
+    </div>
+
+    <div class="login-hint">
+      💡 <strong>Acceso de demostración:</strong> usa el usuario <strong>simulador</strong> y la contraseña <strong>mivotoesrosa</strong> para explorar cómo funcionará nuestro sistema interactivo.
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PANTALLA APP ════════════ -->
+<div id="screen-app" style="display:none; flex-direction:column; min-height:100vh;">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-brand">Planilla Rosa</div>
+      <div class="topbar-title">Préstamos Sindicales</div>
+    </div>
+    <div class="clock-badge">
+      <div class="clock-dot"></div>
+      <span id="clock-label">Quincena 0 · Día 0</span>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-logout" onclick="doLogout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="app-body">
+
+    <div class="panel-header">
+      <h1>Panel de Préstamos</h1>
+      <p>Monitoreo en tiempo real · Sistema Demostrativo Planilla Rosa 2026</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Total Préstamos</div>
+        <div class="value rosa" id="stat-total">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Activos</div>
+        <div class="value" id="stat-activos">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Capital Prestado</div>
+        <div class="value" id="stat-capital">$0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Saldo Pendiente</div>
+        <div class="value" style="color:var(--warning)" id="stat-saldo">$0</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Quincena Actual</div>
+        <div class="value success" id="stat-quinc">0</div>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-icon">📋</div>
+        <h2>Nueva Solicitud de Préstamo</h2>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre del solicitante</label>
+          <input type="text" id="f-nombre" placeholder="Ej. María García López" style="width:100%; padding:11px 14px; border:1.5px solid var(--border-mid); border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; color:var(--text-main); background:var(--surface2);">
+        </div>
+        <div class="form-group">
+          <label>Cantidad solicitada ($500 – $20,000)</label>
+          <input type="number" id="f-monto" placeholder="Ej. 10000" min="500" max="20000" style="width:100%; padding:11px 14px; border:1.5px solid var(--border-mid); border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; color:var(--text-main); background:var(--surface2);">
+        </div>
+        <div class="form-group">
+          <label>Plazo en quincenas (1 – 24)</label>
+          <select id="f-plazo" style="width:100%; padding:11px 14px; border:1.5px solid var(--border-mid); border-radius:8px; font-family:'Barlow',sans-serif; font-size:14px; outline:none; color:var(--text-main); background:var(--surface2); cursor:pointer;">
+            <option value="">Seleccionar plazo…</option>
+            <option value="4">4 quincenas (2 meses)</option>
+            <option value="6">6 quincenas (3 meses)</option>
+            <option value="8">8 quincenas (4 meses)</option>
+            <option value="12">12 quincenas (6 meses)</option>
+            <option value="16">16 quincenas (8 meses)</option>
+            <option value="20">20 quincenas (10 meses)</option>
+            <option value="24">24 quincenas (12 meses)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary" onclick="agregarPrestamo()">➕ Registrar Solicitud</button>
+        <div class="file-input-wrapper">
+          <button class="btn-secondary">📎 Adjuntar Documentos</button>
+          <input type="file" accept=".pdf,.jpg,.png" onchange="simAdjunto(this)">
+        </div>
+        <button class="btn-ghost" onclick="cargarDemoData()">🧪 Cargar Datos Demo</button>
+      </div>
+      <div id="adjunto-msg" style="margin-top:10px; font-size:13px; color:var(--success); display:none;"></div>
+    </div>
+
+    <!-- Tabla -->
+    <div class="table-card">
+      <div class="table-card-header">
+        <h2>Monitoreo en Tiempo Real</h2>
+        <div class="search-box">
+          <span style="color:var(--text-light); font-size:16px;">🔍</span>
+          <input type="text" id="search-input" placeholder="Buscar trabajador…" oninput="filtrarTabla()">
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>No. Trabajador</th>
+              <th>Nombre</th>
+              <th>Monto Original</th>
+              <th>Saldo Restante</th>
+              <th>Avance</th>
+              <th>Quincenas</th>
+              <th>Estado</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body">
+            <tr><td colspan="8">
+              <div class="empty-state">
+                <div class="icon">📂</div>
+                <p>No hay préstamos registrados. Ingresa el primero con el formulario de arriba.</p>
+              </div>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ MODAL FICHA ════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="cerrarModal(event)">
+  <div class="modal" id="modal-content">
+
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <div class="modal-avatar" id="m-avatar">AB</div>
+        <div>
+          <h3 id="m-nombre-full">Trabajador</h3>
+          <div class="num-trab" id="m-num-trab">No. 1000</div>
+        </div>
+      </div>
+      <button class="btn-close" onclick="cerrarModalBtn()">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <!-- Ficha de datos -->
+      <div class="ficha-grid">
+        <div class="ficha-section">
+          <h4>Datos Personales</h4>
+          <div class="ficha-row"><span class="ficha-label">Apellido Paterno</span><span class="ficha-value" id="m-ap"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Apellido Materno</span><span class="ficha-value" id="m-am"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Dirección</span><span class="ficha-value" id="m-dir"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Teléfono</span><span class="ficha-value" id="m-tel"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Correo</span><span class="ficha-value" id="m-email"></span></div>
+        </div>
+        <div class="ficha-section">
+          <h4>Datos Laborales</h4>
+          <div class="ficha-row"><span class="ficha-label">Centro de Trabajo</span><span class="ficha-value" id="m-ct"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Puesto</span><span class="ficha-value" id="m-puesto"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Turno</span><span class="ficha-value" id="m-turno"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Sueldo Neto</span><span class="ficha-value" id="m-sueldo"></span></div>
+          <div class="ficha-row"><span class="ficha-label">Banco</span><span class="ficha-value" id="m-banco"></span></div>
+          <div class="ficha-row"><span class="ficha-label">CLABE</span><span class="ficha-value" id="m-clabe"></span></div>
+        </div>
+      </div>
+
+      <!-- Préstamo activo -->
+      <div class="prestamo-section">
+        <h4>💳 Préstamo Activo</h4>
+        <div class="prestamo-row">
+          <span class="prestamo-label">Monto Total</span>
+          <span class="prestamo-value big" id="m-monto-big">$0</span>
+        </div>
+        <div class="prestamo-row">
+          <span class="prestamo-label">En texto</span>
+          <span class="prestamo-value" id="m-monto-txt" style="font-size:12px; text-align:right; max-width:55%; line-height:1.4;"></span>
+        </div>
+        <div class="prestamo-row">
+          <span class="prestamo-label">Plazo</span>
+          <span class="prestamo-value" id="m-plazo"></span>
+        </div>
+        <div class="prestamo-row">
+          <span class="prestamo-label">Cuota Quincenal</span>
+          <span class="prestamo-value" id="m-cuota"></span>
+        </div>
+        <div class="prestamo-row">
+          <span class="prestamo-label">Saldo Restante</span>
+          <span class="prestamo-value" id="m-saldo"></span>
+        </div>
+        <div class="prestamo-row">
+          <span class="prestamo-label">Progreso de Pago</span>
+          <span class="prestamo-value" id="m-pct">0%</span>
+        </div>
+        <div class="progress-bar-big">
+          <div class="progress-bar-fill" id="m-progress" style="width:0%"></div>
+        </div>
+        <div class="progress-labels">
+          <span id="m-prog-left">Inicio</span>
+          <span id="m-prog-right">Saldo $0</span>
+        </div>
+      </div>
+
+      <!-- Adelanto -->
+      <div class="adelanto-box">
+        <h4>🏦 Adelantar Pago</h4>
+        <div class="adelanto-options">
+          <label class="radio-option selected" id="opt-quinc">
+            <input type="radio" name="adelanto" value="quinc" checked>
+            1 Quincena Extra
+          </label>
+          <label class="radio-option" id="opt-liquid">
+            <input type="radio" name="adelanto" value="liquid">
+            Liquidar Total
+          </label>
+        </div>
+        <button class="btn-confirmar" onclick="adelantarPago()">✅ Confirmar Abono</button>
+      </div>
+
+      <!-- Historial -->
+      <div>
+        <div class="historial-header">
+          <h4>📋 Historial de Pagos</h4>
+        </div>
+        <div class="historial-list" id="historial-list"></div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-primary" onclick="exportarPDF()">⬇️ Exportar Historial PDF</button>
+      <button class="btn-ghost" onclick="cerrarModalBtn()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script>
+// ════════════════════════════════════════════════
+//  ESTADO GLOBAL
+// ════════════════════════════════════════════════
+const STATE = {
+  prestamos: [],
+  nextId: 1001,
+  quincenaActual: 0,
+  diaActual: 0,
+  intervalId: null,
+  modalIndex: -1,
+  filtro: ''
+};
+
+// Calendarios ficticios quincena
+const QUINCENAS = ["1 Jan","15 Jan","1 Feb","15 Feb","1 Mar","15 Mar","1 Abr","15 Abr","1 May","15 May","1 Jun","15 Jun","1 Jul","15 Jul","1 Ago","15 Ago","1 Sep","15 Sep","1 Oct","15 Oct","1 Nov","15 Nov","1 Dic","15 Dic"];
+
+// Catálogos ficticios
+const CALLES = ["Álvaro Obregón","Belisario Domínguez","Ignacio Allende","Constituyentes","Paseo del Centenario","Benito Juárez","Insurgentes","Madero"];
+const COLONIAS = ["Centro","El Manglito","Pueblo Nuevo","Vista Coral","El Esterito","Fidepaz","Las Palmas","El Centenario"];
+const PLANTELES = ["COBACH BCS Plantel 1 – La Paz","COBACH BCS Plantel 2 – La Paz","COBACH BCS Plantel 3 – Miraflores","COBACH BCS Plantel 4 – Los Cabos","COBACH BCS Plantel 5 – Los Planes","COBACH BCS Plantel 6 – La Paz Norte"];
+const PUESTOS = ["Docente de Asignatura","Docente Titular A","Docente Titular B","Administrativo Nivel 1","Administrativo Nivel 2","Técnico en Informática","Subdirector Académico"];
+const TURNOS = ["Matutino","Vespertino","Mixto"];
+const BANCOS = ["Bancomer BBVA","Banamex","HSBC México","Santander México","Banorte","Scotiabank"];
+const APELLIDOS = ["García","Hernández","López","Martínez","Rodríguez","González","Pérez","Sánchez","Ramírez","Torres","Flores","Díaz","Reyes","Cruz","Morales","Jiménez","Guerrero","Mendoza","Ruiz","Vega"];
+const NOMBRES = ["Ana","Carlos","Diana","Eduardo","Fernanda","Gustavo","Hilda","Iván","Julia","Luis","Mariana","Nicolás","Olga","Pablo","Rosa","Salvador","Teresa","Ulises","Valeria","Xóchitl"];
+const DOMINIOS = ["gmail.com","hotmail.com","yahoo.com.mx","cobach.edu.mx"];
+
+function rnd(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function rndInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+function fmt(n) { return '$' + parseFloat(n).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+function fmtNum(n) { return parseFloat(n).toLocaleString('es-MX', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+// ════════════════════════════════════════════════
+//  NÚMEROS EN TEXTO (montos)
+// ════════════════════════════════════════════════
+const UNIDADES = ['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve'];
+const DECENAS = ['','','veinte','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
+const CENTENAS = ['','cien','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
+
+function enTexto(n) {
+  n = Math.floor(n);
+  if (n === 0) return 'cero';
+  if (n < 0) return 'menos ' + enTexto(-n);
+  let r = '';
+  if (n >= 1000) {
+    const miles = Math.floor(n / 1000);
+    r += (miles === 1 ? 'mil' : enTexto(miles) + ' mil');
+    n %= 1000;
+    if (n > 0) r += ' ';
+  }
+  if (n >= 100) {
+    r += CENTENAS[Math.floor(n / 100)];
+    n %= 100;
+    if (n > 0) r += ' ';
+  }
+  if (n >= 20) {
+    r += DECENAS[Math.floor(n / 10)];
+    const u = n % 10;
+    if (u > 0) r += ' y ' + UNIDADES[u];
+  } else if (n > 0) {
+    r += UNIDADES[n];
+  }
+  return r;
+}
+
+function montoTexto(m) {
+  const pesos = Math.floor(m);
+  const cents = Math.round((m - pesos) * 100);
+  let txt = enTexto(pesos).charAt(0).toUpperCase() + enTexto(pesos).slice(1) + ' pesos';
+  txt += cents > 0 ? ` ${cents}/100 MNX` : ' 00/100 MNX';
+  return txt;
+}
+
+// ════════════════════════════════════════════════
+//  CLABE FICTICIA 18 DÍGITOS
+// ════════════════════════════════════════════════
+function genClabe() {
+  let c = '';
+  for (let i = 0; i < 18; i++) c += rndInt(0, 9);
+  return c;
+}
+
+// ════════════════════════════════════════════════
+//  GENERAR DATOS FICTICIOS DEL TRABAJADOR
+// ════════════════════════════════════════════════
+function genDatos(nombre) {
+  const parts = nombre.trim().split(' ');
+  const ap = parts.length >= 2 ? parts[parts.length - 2] : rnd(APELLIDOS);
+  const am = parts.length >= 3 ? parts[parts.length - 1] : rnd(APELLIDOS);
+  const primerNombre = parts[0] || rnd(NOMBRES);
+  const num = rndInt(1, 999);
+  const sueldo = rndInt(6500, 18000);
+  return {
+    ap, am, primerNombre,
+    dir: `${rnd(CALLES)} #${rndInt(10,350)}, Col. ${rnd(COLONIAS)}, La Paz, B.C.S.`,
+    tel: `612${rndInt(100,999)}-${rndInt(1000,9999)}`,
+    email: `${primerNombre.toLowerCase()}.${ap.toLowerCase()}@${rnd(DOMINIOS)}`,
+    ct: rnd(PLANTELES),
+    puesto: rnd(PUESTOS),
+    turno: rnd(TURNOS),
+    sueldo: fmt(sueldo),
+    banco: rnd(BANCOS),
+    clabe: genClabe()
+  };
+}
+
+// ════════════════════════════════════════════════
+//  LOGIN
+// ════════════════════════════════════════════════
+function doLogin() {
+  const user = document.getElementById('login-user').value.trim();
+  const pass = document.getElementById('login-pass').value.trim();
+  const err = document.getElementById('login-error');
+  if (user === 'simulador' && pass === 'mivotoesrosa') {
+    document.getElementById('screen-login').style.display = 'none';
+    document.getElementById('screen-app').style.display = 'flex';
+    iniciarReloj();
+    showToast('¡Bienvenido al Sistema!', 'Accediste como simulador al panel de Planilla Rosa.', 'success');
+  } else {
+    err.style.display = 'block';
+    document.getElementById('login-pass').value = '';
+    document.getElementById('login-pass').focus();
+    setTimeout(() => err.style.display = 'none', 4000);
+  }
+}
+
+document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogout() {
+  document.getElementById('screen-app').style.display = 'none';
+  document.getElementById('screen-login').style.display = 'flex';
+  clearInterval(STATE.intervalId);
+  STATE.diaActual = 0;
+  STATE.quincenaActual = 0;
+  document.getElementById('login-pass').value = '';
+}
+
+// ════════════════════════════════════════════════
+//  RELOJ QUINCENAL (1 min = 1 quincena = 60 seg = 15 tics de 4 seg)
+// ════════════════════════════════════════════════
+function iniciarReloj() {
+  if (STATE.intervalId) clearInterval(STATE.intervalId);
+  STATE.intervalId = setInterval(() => {
+    STATE.diaActual++;
+    actualizarClockUI();
+    // Cada 15 días = 1 quincena
+    if (STATE.diaActual % 15 === 0) {
+      STATE.quincenaActual++;
+      procesarDescuentosQuincena();
+    }
+  }, 4000); // 4 segundos = 1 día simulado
+}
+
+function actualizarClockUI() {
+  const q = STATE.quincenaActual;
+  const d = STATE.diaActual % 15 === 0 ? 15 : STATE.diaActual % 15;
+  document.getElementById('clock-label').textContent = `Quincena ${q} · Día ${d}`;
+  document.getElementById('stat-quinc').textContent = q;
+}
+
+function procesarDescuentosQuincena() {
+  let huboDescuento = false;
+  STATE.prestamos.forEach(p => {
+    if (p.saldo <= 0 || p.pagado) return;
+    const cuota = p.monto / p.plazo;
+    const descuento = Math.min(cuota, p.saldo);
+    p.saldo = Math.max(0, p.saldo - descuento);
+    p.quincenasPagadas = (p.quincenasPagadas || 0) + 1;
+    const qLabel = QUINCENAS[(STATE.quincenaActual - 1) % 24];
+    p.historial.push({
+      tipo: 'auto',
+      desc: `Quincena ${p.quincenasPagadas}/${p.plazo} – Descuento por Nómina`,
+      monto: descuento,
+      fecha: qLabel + ' Q' + STATE.quincenaActual,
+      saldo: p.saldo
+    });
+    if (p.saldo <= 0) {
+      p.pagado = true;
+      showToast('Préstamo Liquidado ✅', `${p.nombre} ha concluido su préstamo. ¡Felicidades!`, 'success');
+    } else {
+      showToast('Descuento Aplicado 💳', `Quincena ${p.quincenasPagadas} aplicada para ${p.nombre}. Saldo: ${fmt(p.saldo)}`, '');
+    }
+    huboDescuento = true;
+  });
+  if (huboDescuento) {
+    renderTabla();
+    actualizarStats();
+    if (STATE.modalIndex >= 0) renderModal(STATE.modalIndex);
+  }
+}
+
+// ════════════════════════════════════════════════
+//  AGREGAR PRÉSTAMO
+// ════════════════════════════════════════════════
+function agregarPrestamo() {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const monto = parseFloat(document.getElementById('f-monto').value);
+  const plazo = parseInt(document.getElementById('f-plazo').value);
+
+  if (!nombre) { alert('Por favor ingresa el nombre del solicitante.'); return; }
+  if (!monto || monto < 500 || monto > 20000) { alert('El monto debe estar entre $500 y $20,000.'); return; }
+  if (!plazo) { alert('Por favor selecciona el plazo.'); return; }
+
+  const p = {
+    id: STATE.nextId++,
+    nombre,
+    monto,
+    saldo: monto,
+    plazo,
+    quincenasPagadas: 0,
+    pagado: false,
+    historial: [],
+    datos: genDatos(nombre),
+    fechaAlta: `Q${STATE.quincenaActual} · Día ${STATE.diaActual}`
+  };
+
+  p.historial.push({
+    tipo: 'alta',
+    desc: 'Alta de Préstamo – Aprobación Sindical',
+    monto: monto,
+    fecha: `Q${STATE.quincenaActual}`,
+    saldo: monto
+  });
+
+  STATE.prestamos.unshift(p);
+
+  document.getElementById('f-nombre').value = '';
+  document.getElementById('f-monto').value = '';
+  document.getElementById('f-plazo').value = '';
+
+  renderTabla();
+  actualizarStats();
+  showToast('Solicitud Registrada ✅', `${nombre} – ${fmt(monto)} a ${plazo} quincenas registrado con éxito.`, 'success');
+}
+
+// ════════════════════════════════════════════════
+//  DEMO DATA
+// ════════════════════════════════════════════════
+function cargarDemoData() {
+  const demos = [
+    { nombre: 'Javier Bustos Ríos', monto: 10000, plazo: 12 },
+    { nombre: 'Laura Méndez Portillo', monto: 5000, plazo: 6 },
+    { nombre: 'Roberto Herrera Soto', monto: 15000, plazo: 20 },
+    { nombre: 'Silvia Torres Alva', monto: 3000, plazo: 4 },
+    { nombre: 'Marco Vega Castillo', monto: 8000, plazo: 8 },
+  ];
+  demos.forEach(d => {
+    const p = {
+      id: STATE.nextId++,
+      nombre: d.nombre,
+      monto: d.monto,
+      saldo: d.monto,
+      plazo: d.plazo,
+      quincenasPagadas: 0,
+      pagado: false,
+      historial: [],
+      datos: genDatos(d.nombre),
+      fechaAlta: 'Demo'
+    };
+    p.historial.push({
+      tipo: 'alta',
+      desc: 'Alta de Préstamo – Aprobación Sindical',
+      monto: d.monto,
+      fecha: 'Demo',
+      saldo: d.monto
+    });
+    STATE.prestamos.unshift(p);
+  });
+  renderTabla();
+  actualizarStats();
+  showToast('Datos de Demostración', '5 préstamos de ejemplo cargados correctamente.', 'success');
+}
+
+// ════════════════════════════════════════════════
+//  ADJUNTO SIMULADO
+// ════════════════════════════════════════════════
+function simAdjunto(input) {
+  if (input.files.length > 0) {
+    const msg = document.getElementById('adjunto-msg');
+    msg.textContent = `✅ Documento adjunto: "${input.files[0].name}" (simulación — no se sube a servidor)`;
+    msg.style.display = 'block';
+    setTimeout(() => msg.style.display = 'none', 5000);
+  }
+}
+
+// ════════════════════════════════════════════════
+//  RENDER TABLA
+// ════════════════════════════════════════════════
+function filtrarTabla() {
+  STATE.filtro = document.getElementById('search-input').value.toLowerCase();
+  renderTabla();
+}
+
+function renderTabla() {
+  const tbody = document.getElementById('tabla-body');
+  const lista = STATE.filtro
+    ? STATE.prestamos.filter(p => p.nombre.toLowerCase().includes(STATE.filtro))
+    : STATE.prestamos;
+
+  if (lista.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8"><div class="empty-state"><div class="icon">📂</div><p>${STATE.prestamos.length > 0 ? 'Sin resultados para "' + STATE.filtro + '".' : 'No hay préstamos registrados.'}</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = lista.map((p, vi) => {
+    const realIdx = STATE.prestamos.indexOf(p);
+    const pct = Math.round(((p.monto - p.saldo) / p.monto) * 100);
+    const estado = p.pagado ? `<span class="badge badge-paid">✓ Liquidado</span>` :
+      p.quincenasPagadas >= p.plazo * 0.75 ? `<span class="badge badge-warn">⚠ Por vencer</span>` :
+      `<span class="badge badge-active">● Activo</span>`;
+    return `<tr>
+      <td style="font-weight:700; color:var(--text-muted); font-size:13px;">#${p.id}</td>
+      <td><strong>${p.nombre}</strong></td>
+      <td>${fmt(p.monto)}</td>
+      <td style="font-weight:700; color:${p.pagado ? 'var(--success)' : p.saldo/p.monto < 0.25 ? 'var(--success)' : 'var(--text-main)'};">${fmt(p.saldo)}</td>
+      <td>
+        <div class="saldo-bar">
+          <div class="progress-track"><div class="progress-fill ${pct >= 75 ? 'verde' : ''}" style="width:${pct}%"></div></div>
+          <span style="font-size:12px; font-weight:700; color:var(--text-muted); min-width:28px; text-align:right;">${pct}%</span>
+        </div>
+      </td>
+      <td style="font-size:13px;">${p.quincenasPagadas}/${p.plazo}</td>
+      <td>${estado}</td>
+      <td><button class="btn-ver" onclick="abrirModal(${realIdx})">Ver →</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════
+//  STATS
+// ════════════════════════════════════════════════
+function actualizarStats() {
+  const activos = STATE.prestamos.filter(p => !p.pagado).length;
+  const capital = STATE.prestamos.reduce((a, p) => a + p.monto, 0);
+  const saldo = STATE.prestamos.reduce((a, p) => a + p.saldo, 0);
+  document.getElementById('stat-total').textContent = STATE.prestamos.length;
+  document.getElementById('stat-activos').textContent = activos;
+  document.getElementById('stat-capital').textContent = fmt(capital);
+  document.getElementById('stat-saldo').textContent = fmt(saldo);
+}
+
+// ════════════════════════════════════════════════
+//  MODAL
+// ════════════════════════════════════════════════
+function abrirModal(idx) {
+  STATE.modalIndex = idx;
+  renderModal(idx);
+  document.getElementById('modal-overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function renderModal(idx) {
+  const p = STATE.prestamos[idx];
+  const d = p.datos;
+  const iniciales = (d.primerNombre[0] || '') + (d.ap[0] || '');
+  document.getElementById('m-avatar').textContent = iniciales.toUpperCase();
+  document.getElementById('m-nombre-full').textContent = `${d.primerNombre} ${d.ap} ${d.am}`;
+  document.getElementById('m-num-trab').textContent = `No. de Trabajador: ${p.id}`;
+  document.getElementById('m-ap').textContent = d.ap;
+  document.getElementById('m-am').textContent = d.am;
+  document.getElementById('m-dir').textContent = d.dir;
+  document.getElementById('m-tel').textContent = d.tel;
+  document.getElementById('m-email').textContent = d.email;
+  document.getElementById('m-ct').textContent = d.ct;
+  document.getElementById('m-puesto').textContent = d.puesto;
+  document.getElementById('m-turno').textContent = d.turno;
+  document.getElementById('m-sueldo').textContent = d.sueldo;
+  document.getElementById('m-banco').textContent = d.banco;
+  document.getElementById('m-clabe').textContent = d.clabe;
+
+  const cuota = p.monto / p.plazo;
+  const pct = Math.round(((p.monto - p.saldo) / p.monto) * 100);
+  document.getElementById('m-monto-big').textContent = fmt(p.monto);
+  document.getElementById('m-monto-txt').textContent = montoTexto(p.monto);
+  document.getElementById('m-plazo').textContent = `${p.plazo} quincenas`;
+  document.getElementById('m-cuota').textContent = fmt(cuota);
+  document.getElementById('m-saldo').textContent = fmt(p.saldo);
+  document.getElementById('m-pct').textContent = pct + '%';
+  document.getElementById('m-progress').style.width = pct + '%';
+  document.getElementById('m-prog-left').textContent = `${p.quincenasPagadas} pagadas`;
+  document.getElementById('m-prog-right').textContent = `Saldo ${fmt(p.saldo)}`;
+
+  renderHistorial(idx);
+}
+
+function renderHistorial(idx) {
+  const p = STATE.prestamos[idx];
+  const cont = document.getElementById('historial-list');
+  if (p.historial.length === 0) {
+    cont.innerHTML = '<div style="color:var(--text-light); font-size:13px; padding:12px 0;">Sin movimientos.</div>';
+    return;
+  }
+  cont.innerHTML = [...p.historial].reverse().map(h => {
+    const isAlta = h.tipo === 'alta';
+    const isEsp = h.tipo === 'especial';
+    const icon = isAlta ? '📄' : isEsp ? '💚' : '💸';
+    return `<div class="hist-item ${isEsp ? 'especial' : ''}">
+      <div class="hist-icon">${icon}</div>
+      <div style="flex:1;">
+        <div class="hist-desc">${h.desc}</div>
+        <div class="hist-date">${h.fecha}</div>
+      </div>
+      <div class="hist-monto" style="${isAlta ? 'color:var(--rosa)' : isEsp ? '' : ''}">${isAlta ? '+' : '-'}${fmt(h.monto)}</div>
+    </div>`;
+  }).join('');
+}
+
+function cerrarModalBtn() {
+  document.getElementById('modal-overlay').classList.remove('active');
+  document.body.style.overflow = '';
+  STATE.modalIndex = -1;
+}
+
+function cerrarModal(e) {
+  if (e.target.id === 'modal-overlay') cerrarModalBtn();
+}
+
+// Radio options adelanto
+document.querySelectorAll('.radio-option').forEach(el => {
+  el.addEventListener('click', function() {
+    document.querySelectorAll('.radio-option').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+    this.querySelector('input').checked = true;
+  });
+});
+
+// ════════════════════════════════════════════════
+//  ADELANTAR PAGO
+// ════════════════════════════════════════════════
+function adelantarPago() {
+  if (STATE.modalIndex < 0) return;
+  const p = STATE.prestamos[STATE.modalIndex];
+  if (p.pagado || p.saldo <= 0) {
+    showToast('Sin saldo pendiente', 'Este préstamo ya fue liquidado.', 'warn');
+    return;
+  }
+  const tipo = document.querySelector('input[name="adelanto"]:checked').value;
+  const cuota = p.monto / p.plazo;
+
+  if (tipo === 'quinc') {
+    const abono = Math.min(cuota, p.saldo);
+    p.saldo = Math.max(0, p.saldo - abono);
+    p.quincenasPagadas++;
+    p.historial.push({
+      tipo: 'especial',
+      desc: 'Abono Extraordinario en Ventanilla – 1 Quincena',
+      monto: abono,
+      fecha: `Q${STATE.quincenaActual}`,
+      saldo: p.saldo
+    });
+    showToast('Abono Extraordinario 💚', `Se aplicó un abono de ${fmt(abono)} para ${p.nombre}. Saldo: ${fmt(p.saldo)}`, 'success');
+  } else {
+    const total = p.saldo;
+    p.saldo = 0;
+    p.pagado = true;
+    p.historial.push({
+      tipo: 'especial',
+      desc: 'Liquidación Total en Ventanilla',
+      monto: total,
+      fecha: `Q${STATE.quincenaActual}`,
+      saldo: 0
+    });
+    showToast('Préstamo Liquidado ✅', `${p.nombre} ha liquidado su préstamo completamente.`, 'success');
+  }
+  renderTabla();
+  actualizarStats();
+  renderModal(STATE.modalIndex);
+}
+
+// ════════════════════════════════════════════════
+//  EXPORTAR PDF
+// ════════════════════════════════════════════════
+function exportarPDF() {
+  if (STATE.modalIndex < 0) return;
+  const p = STATE.prestamos[STATE.modalIndex];
+  const d = p.datos;
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  // Header
+  doc.setFillColor(233, 30, 140);
+  doc.rect(0, 0, 210, 28, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PLANILLA ROSA', 14, 12);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.text('SUTCBEBCS · Sistema de Préstamos Sindicales', 14, 19);
+  doc.text('Estado de Cuenta · Reporte Generado en Simulación', 14, 24);
+
+  // Sub-header
+  doc.setFillColor(26, 26, 46);
+  doc.rect(0, 28, 210, 12, 'F');
+  doc.setTextColor(255, 200, 230);
+  doc.setFontSize(9);
+  doc.text(`Trabajador: ${d.primerNombre} ${d.ap} ${d.am}   |   No. ${p.id}   |   ${d.ct}`, 14, 36);
+
+  // Datos del préstamo
+  doc.setTextColor(26, 26, 46);
+  doc.setFontSize(12);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Detalle del Préstamo', 14, 52);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  const cuota = p.monto / p.plazo;
+  const pct = Math.round(((p.monto - p.saldo) / p.monto) * 100);
+  const infoRows = [
+    ['Monto Original:', fmt(p.monto)],
+    ['En texto:', montoTexto(p.monto)],
+    ['Plazo:', `${p.plazo} quincenas`],
+    ['Cuota Quincenal:', fmt(cuota)],
+    ['Quincenas Pagadas:', `${p.quincenasPagadas} de ${p.plazo}`],
+    ['Saldo Restante:', fmt(p.saldo)],
+    ['Avance de Pago:', `${pct}%`],
+    ['Estado:', p.pagado ? 'LIQUIDADO' : 'ACTIVO'],
+  ];
+  let y = 60;
+  infoRows.forEach(row => {
+    doc.setFont('helvetica', 'bold');
+    doc.text(row[0], 14, y);
+    doc.setFont('helvetica', 'normal');
+    doc.text(row[1], 80, y);
+    y += 7;
+  });
+
+  // Historial
+  y += 4;
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(12);
+  doc.setTextColor(233, 30, 140);
+  doc.text('Historial de Movimientos', 14, y);
+  y += 2;
+
+  const rows = p.historial.map(h => [
+    h.fecha,
+    h.desc,
+    (h.tipo === 'alta' ? '+' : '-') + fmt(h.monto),
+    fmt(h.saldo)
+  ]);
+
+  doc.autoTable({
+    startY: y + 4,
+    head: [['Fecha', 'Descripción', 'Movimiento', 'Saldo Restante']],
+    body: rows,
+    theme: 'striped',
+    headStyles: { fillColor: [233, 30, 140], textColor: 255, fontStyle: 'bold', fontSize: 9 },
+    bodyStyles: { fontSize: 9 },
+    columnStyles: { 0: { cellWidth: 24 }, 2: { cellWidth: 30, halign: 'right' }, 3: { cellWidth: 32, halign: 'right' } },
+    margin: { left: 14, right: 14 }
+  });
+
+  // Footer
+  const pageH = doc.internal.pageSize.height;
+  doc.setFillColor(233, 30, 140);
+  doc.rect(0, pageH - 10, 210, 10, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(7);
+  doc.text('Documento generado por el Simulador de Planilla Rosa · SUTCBEBCS · Documento de demostración', 14, pageH - 4);
+
+  doc.save(`Estado_Cuenta_${p.nombre.replace(/ /g,'_')}_${p.id}.pdf`);
+  showToast('PDF Generado ⬇️', `Estado de cuenta de ${p.nombre} descargado.`, 'success');
+}
+
+// ════════════════════════════════════════════════
+//  TOAST
+// ════════════════════════════════════════════════
+function showToast(title, msg, type) {
+  const cont = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = 'toast' + (type ? ' ' + type : '');
+  t.innerHTML = `<div class="toast-title">${title}</div><div class="toast-msg">${msg}</div>`;
+  cont.appendChild(t);
+  setTimeout(() => {
+    t.style.animation = 'toast-out 0.3s ease forwards';
+    setTimeout(() => t.remove(), 300);
+  }, 4500);
+}
+
+// Focus pass on load
+window.addEventListener('load', () => {
+  document.getElementById('login-pass').focus();
+});
+</script>
+</body>
+</html>
